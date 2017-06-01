@@ -3,7 +3,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Infrastructure", "Src\LandmarkDevs.Core.Infrastructure\LandmarkDevs.Core.Infrastructure.csproj", "{5EB20C52-BE81-4AE3-8C9C-41B92FBBF209}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Prism", "Src\LandmarkDevs.Core.Prism\LandmarkDevs.Core.Prism.csproj", "{C757AF31-30FD-48AA-A7BA-0D6A117C4441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Telemetry", "Src\LandmarkDevs.Core.Telemetry\LandmarkDevs.Core.Telemetry.csproj", "{BAEEA2F9-5EDC-4258-A3BA-A67D646639E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Security", "Src\LandmarkDevs.Core.Security\LandmarkDevs.Core.Security.csproj", "{BD56E27A-FDE8-4130-B0DA-A7CF5D0AD971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Shared", "Src\LandmarkDevs.Core.Shared\LandmarkDevs.Core.Shared.csproj", "{45FDFAE1-3CF9-4E4D-9345-38A54E636658}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC8F5008-F83D-4CE7-8D21-D11395D37D01}"
+	ProjectSection(SolutionItems) = preProject
+		pack.ps1 = pack.ps1
+		README.MD = README.MD
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EB20C52-BE81-4AE3-8C9C-41B92FBBF209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB20C52-BE81-4AE3-8C9C-41B92FBBF209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB20C52-BE81-4AE3-8C9C-41B92FBBF209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB20C52-BE81-4AE3-8C9C-41B92FBBF209}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C757AF31-30FD-48AA-A7BA-0D6A117C4441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C757AF31-30FD-48AA-A7BA-0D6A117C4441}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C757AF31-30FD-48AA-A7BA-0D6A117C4441}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C757AF31-30FD-48AA-A7BA-0D6A117C4441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEEA2F9-5EDC-4258-A3BA-A67D646639E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEEA2F9-5EDC-4258-A3BA-A67D646639E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEEA2F9-5EDC-4258-A3BA-A67D646639E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEEA2F9-5EDC-4258-A3BA-A67D646639E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD56E27A-FDE8-4130-B0DA-A7CF5D0AD971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD56E27A-FDE8-4130-B0DA-A7CF5D0AD971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD56E27A-FDE8-4130-B0DA-A7CF5D0AD971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD56E27A-FDE8-4130-B0DA-A7CF5D0AD971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45FDFAE1-3CF9-4E4D-9345-38A54E636658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45FDFAE1-3CF9-4E4D-9345-38A54E636658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45FDFAE1-3CF9-4E4D-9345-38A54E636658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45FDFAE1-3CF9-4E4D-9345-38A54E636658}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>LandmarkDevs.Core.Security</id>
+    <version>1.0.0</version>
+    <title>LandmarkDevs Security Library</title>
+    <authors>Tim Stephansen</authors>
+    <owners>Tim Stephansen</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Security Library</description>
+    <releaseNotes>Initial creation of NuGet package.</releaseNotes>
+    <copyright>Copyright 2017 - Tim Stephansen</copyright>
+    <tags>landmarkdevs Security</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNetCore.Cryptography.Internal" version="1.1.2"/>
+      <dependency id="Microsoft.AspNetCore.Cryptography.KeyDerivation" version="1.1.2"/>
+      <dependency id="Microsoft.NETCore.Platforms" version="1.1.0"/>
+      <dependency id="NETStandard.Library" version="1.6.1"/>
+      <dependency id="System.Collections" version="4.3.0"/>
+      <dependency id="System.Collections.Concurrent" version="4.3.0"/>
+      <dependency id="System.Diagnostics.Debug" version="4.3.0"/>
+      <dependency id="System.Diagnostics.Tools" version="4.3.0"/>
+      <dependency id="System.Diagnostics.Tracing" version="4.3.0"/>
+      <dependency id="System.Globalization" version="4.3.0"/>
+      <dependency id="System.IO" version="4.3.0"/>
+      <dependency id="System.IO.Compression" version="4.3.0"/>
+      <dependency id="System.Linq" version="4.3.0"/>
+      <dependency id="System.Linq.Expressions" version="4.3.0"/>
+      <dependency id="System.Net.Http" version="4.3.0"/>
+      <dependency id="System.Net.Primitives" version="4.3.0"/>
+      <dependency id="System.ObjectModel" version="4.3.0"/>
+      <dependency id="System.Reflection" version="4.3.0"/>
+      <dependency id="System.Reflection.Extensions" version="4.3.0"/>
+      <dependency id="System.Reflection.Primitives" version="4.3.0"/>
+      <dependency id="System.Resources.ResourceManager" version="4.3.0"/>
+      <dependency id="System.Runtime" version="4.3.0"/>
+      <dependency id="System.Runtime.Extensions" version="4.3.0"/>
+      <dependency id="System.Runtime.InteropServices" version="4.3.0"/>
+      <dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0"/>
+      <dependency id="System.Runtime.Numerics" version="4.3.0"/>
+      <dependency id="System.Text.Encoding" version="4.3.0"/>
+      <dependency id="System.Text.Encoding.Extensions" version="4.3.0"/>
+      <dependency id="System.Text.RegularExpressions" version="4.3.0"/>
+      <dependency id="System.Threading" version="4.3.0"/>
+      <dependency id="System.Threading.Tasks" version="4.3.0"/>
+      <dependency id="System.Threading.Timer" version="4.3.0"/>
+      <dependency id="System.Xml.ReaderWriter" version="4.3.0"/>
+      <dependency id="System.Xml.XDocument" version="4.3.0"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\LandmarkDevs.Core.Security.pdb" target="lib\net452\"/>
+  </files>
+</package>

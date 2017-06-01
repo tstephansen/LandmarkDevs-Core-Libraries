@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>LandmarkDevs.Core.Shared</id>
+    <version>1.0.0</version>
+    <title>LandmarkDevs Shared Library</title>
+    <authors>Tim Stephansen</authors>
+    <owners>Tim Stephansen</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Shared Library</description>
+    <releaseNotes>Initial creation of NuGet package.</releaseNotes>
+    <copyright>Copyright 2017 - Tim Stephansen</copyright>
+    <tags>landmarkdevs Shared</tags>
+    <dependencies>
+      <dependency id="ClosedXML" version="0.87.1"/>
+      <dependency id="DocumentFormat.OpenXml" version="2.5"/>
+      <dependency id="Newtonsoft.Json" version="10.0.2"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\LandmarkDevs.Core.Shared.pdb" target="lib\net452\"/>
+  </files>
+</package>
