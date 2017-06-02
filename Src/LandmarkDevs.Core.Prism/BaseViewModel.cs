@@ -162,6 +162,22 @@ namespace LandmarkDevs.Core.Prism
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Sets the property to the specified value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="storage">The property who's value will change.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
         #endregion INPC
     }
 }
