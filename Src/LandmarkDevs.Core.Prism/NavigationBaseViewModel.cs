@@ -15,7 +15,7 @@ namespace LandmarkDevs.Core.Prism
     /// </summary>
     /// <seealso cref="BaseViewModel" />
     /// <seealso cref="INavigationAware" />
-    public class NavigationBaseViewModel : BaseViewModel, INavigationAware
+    public class NavigationBaseViewModel : BaseViewModel, INavigationBaseViewModel
     {
         #region INavigationAware
         /// <summary>
