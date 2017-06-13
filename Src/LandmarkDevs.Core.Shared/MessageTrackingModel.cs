@@ -8,7 +8,7 @@ namespace LandmarkDevs.Core.Shared
     /// Class MessageTrackingModel.
     /// </summary>
     /// <seealso cref="ChangeTrackingModel" />
-    public class MessageTrackingModel : ChangeTrackingModel
+    public class MessageTrackingModel : ChangeTrackingModel, IMessageTrackingModel
     {
         #region Constructor
         /// <summary>

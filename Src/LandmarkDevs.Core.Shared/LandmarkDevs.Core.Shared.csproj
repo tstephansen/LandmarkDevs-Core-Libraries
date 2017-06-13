@@ -55,6 +55,8 @@
     <Compile Include="ChangeTrackingModel.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GuidGenerator.cs" />
+    <Compile Include="IChangeTrackingModel.cs" />
+    <Compile Include="IMessageTrackingModel.cs" />
     <Compile Include="MessageTrackingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskStatusHelper.cs" />

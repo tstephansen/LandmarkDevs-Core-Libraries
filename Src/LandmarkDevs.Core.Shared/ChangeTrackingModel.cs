@@ -5,10 +5,12 @@ using System.Runtime.CompilerServices;
 
 namespace LandmarkDevs.Core.Shared
 {
-    /// <summary> A data model for change tracking. </summary>
-    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged"/>
+    /// <summary>
+    /// A data model for change tracking.
+    /// </summary>
+    /// <seealso cref="LandmarkDevs.Core.Shared.IChangeTrackingModel" />
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public abstract class ChangeTrackingModel : INotifyPropertyChanged
+    public abstract class ChangeTrackingModel : IChangeTrackingModel
     {
         #region Methods
         /// <summary> Resets this object. </summary>
