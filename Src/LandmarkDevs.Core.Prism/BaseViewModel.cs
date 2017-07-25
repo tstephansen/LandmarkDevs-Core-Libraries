@@ -18,8 +18,7 @@ namespace LandmarkDevs.Core.Prism
     /// logging, and unity methods.
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-    /// <seealso cref="System.IDisposable" />
-    public class BaseViewModel
+    public class BaseViewModel : INotifyPropertyChanged, IDisposable
     {
         #region Constructor
         /// <summary>

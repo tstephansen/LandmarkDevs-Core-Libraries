@@ -10,7 +10,7 @@ namespace LandmarkDevs.Core.Prism
     /// Interface INavigationBaseViewModel
     /// </summary>
     /// <seealso cref="INavigationAware" />
-    public interface INavigationBaseViewModel : INavigationAware
+    public interface INavigationBaseViewModel : INavigationAware, INotifyPropertyChanged, IDisposable
     {
         /// <summary>
         /// Navigates the specified view name.
@@ -126,10 +126,5 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         /// <value>The logger.</value>
         ILogger Logger { get; }
-
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
-        event PropertyChangedEventHandler PropertyChanged;
     }
 }
