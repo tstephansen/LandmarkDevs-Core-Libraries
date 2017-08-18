@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Security.Cryptography;
 
 namespace LandmarkDevs.Core.Security.Crypto
@@ -22,10 +23,18 @@ namespace LandmarkDevs.Core.Security.Crypto
         public const int SALT_INDEX = 3;
         public const int PBKDF2_INDEX = 4;
 
-        public static string CreateHash(string password)
+        public static byte[] CreateHash(string password, byte[] saltBytes = null)
         {
             // Generate a random salt
-            var salt = new byte[SALT_BYTES];
+            byte[] salt;
+            if (saltBytes == null)
+            {
+                salt = new byte[SALT_BYTES];
+            }
+            else
+            {
+                salt = saltBytes;
+            }
             try
             {
                 using (var csprng = new RNGCryptoServiceProvider())
@@ -47,9 +56,13 @@ namespace LandmarkDevs.Core.Security.Crypto
                     ex
                 );
             }
+            return PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTES);
+        }
 
-            var hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTES);
-
+        public static string HashPassword(string password)
+        {
+            var salt = new byte[SALT_BYTES];
+            var hash = CreateHash(password, salt);
             // format: algorithm:iterations:hashSize:salt:hash
             var parts = "sha1:" +
                 PBKDF2_ITERATIONS +
@@ -59,11 +72,16 @@ namespace LandmarkDevs.Core.Security.Crypto
                 Convert.ToBase64String(salt) +
                 ":" +
                 Convert.ToBase64String(hash);
-            return parts;
+            var hashBytes = Encoding.UTF8.GetBytes(parts);
+            var hashString = Convert.ToBase64String(hashBytes);
+            return hashString;
         }
 
-        public static bool VerifyPassword(string password, string goodHash)
+        public static bool ValidatePassword(string password, string hashString)
         {
+            var hashBytes = Convert.FromBase64String(hashString);
+            var goodHash = Encoding.UTF8.GetString(hashBytes);
+
             char[] delimiter = { ':' };
             var split = goodHash.Split(delimiter);
 
@@ -73,7 +91,6 @@ namespace LandmarkDevs.Core.Security.Crypto
                     "Fields are missing from the password hash."
                 );
             }
-
             // We only support SHA1 with C#.
             if (split[HASH_ALGORITHM_INDEX] != "sha1")
             {
@@ -81,7 +98,6 @@ namespace LandmarkDevs.Core.Security.Crypto
                     "Unsupported hash type."
                 );
             }
-
             var iterations = 0;
             try
             {
@@ -108,14 +124,12 @@ namespace LandmarkDevs.Core.Security.Crypto
                     ex
                 );
             }
-
             if (iterations < 1)
             {
                 throw new InvalidHashException(
                     "Invalid number of iterations. Must be >= 1."
                 );
             }
-
             byte[] salt = null;
             try
             {
@@ -155,7 +169,6 @@ namespace LandmarkDevs.Core.Security.Crypto
                     ex
                 );
             }
-
             var storedHashSize = 0;
             try
             {
@@ -182,14 +195,12 @@ namespace LandmarkDevs.Core.Security.Crypto
                     ex
                 );
             }
-
             if (storedHashSize != hash.Length)
             {
                 throw new InvalidHashException(
                     "Hash length doesn't match stored hash length."
                 );
             }
-
             var testHash = PBKDF2(password, salt, iterations, hash.Length);
             return SlowEquals(hash, testHash);
         }

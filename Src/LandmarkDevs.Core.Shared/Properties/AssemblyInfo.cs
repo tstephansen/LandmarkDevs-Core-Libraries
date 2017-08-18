@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LandmarkDevs.Core.Shared")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This library contains a Guid Generator, a change tracking model, a tracking message model, some extension methods, and a helper class used for progress reporting during async operations.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tim Stephansen")]
 [assembly: AssemblyProduct("LandmarkDevs.Core.Shared")]

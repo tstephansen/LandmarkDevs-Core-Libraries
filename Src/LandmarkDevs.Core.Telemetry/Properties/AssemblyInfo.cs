@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LandmarkDevs.Core.Telemetry")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This library contains classes useful for telemetry tracking with HockeyApp and Application Insights.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tim Stephansen")]
 [assembly: AssemblyProduct("LandmarkDevs.Core.Telemetry")]

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Prism", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Shared", "Src\LandmarkDevs.Core.Shared\LandmarkDevs.Core.Shared.csproj", "{1C0B2E1E-2282-451C-B167-51C3215FFA5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Tests", "Src\LandmarkDevs.Core.Tests\LandmarkDevs.Core.Tests.csproj", "{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

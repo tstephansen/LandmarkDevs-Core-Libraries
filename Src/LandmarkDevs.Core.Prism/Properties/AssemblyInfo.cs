@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LandmarkDevs.Core.Prism")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This library is useful when using the Prism Library in an application.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tim Stephansen")]
 [assembly: AssemblyProduct("LandmarkDevs.Core.Prism")]
