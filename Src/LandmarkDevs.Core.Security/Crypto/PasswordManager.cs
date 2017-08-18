@@ -1,199 +1,216 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System;
-using System.Runtime.CompilerServices;
+﻿using System;
 using System.Security.Cryptography;
 
 namespace LandmarkDevs.Core.Security.Crypto
 {
     /// <summary>
-    /// Class PasswordManager.
-    /// This is an implementation of the password hasher class from ASP.NET Core Identity.
+    /// Used for hashing passwords. Taken from https://github.com/defuse/password-hashing/blob/master/PasswordStorage.cs.
+    /// All credit belongs to the author.
     /// </summary>
-    public class PasswordManager
+    public static class PasswordManager
     {
-        /* =======================
-        * HASHED PASSWORD FORMATS
-        * =======================
-        *
-        * Version 2:
-        * PBKDF2 with HMAC-SHA1, 128-bit salt, 256-bit subkey, 1000 iterations.
-        * (See also: SDL crypto guidelines v5.1, Part III)
-        * Format: { 0x00, salt, subkey }
-        *
-        * Version 3:
-        * PBKDF2 with HMAC-SHA256, 128-bit salt, 256-bit subkey, 10000 iterations.
-        * Format: { 0x01, prf (UInt32), iter count (UInt32), salt length (UInt32), salt, subkey }
-        * (All UInt32s are stored big-endian.)
-        */
+        // These constants may be changed without breaking existing hashes.
+        public const int SALT_BYTES = 24;
+        public const int HASH_BYTES = 18;
+        public const int PBKDF2_ITERATIONS = 64000;
 
-        /// <summary>
-        /// Creates a new instance of the password hasher class.
-        /// </summary>
-        /// <param name="optionsAccessor">The options for this instance.</param>
-        public PasswordManager(PasswordHasherOptions optionsAccessor = null)
+        // These constants define the encoding and may not be changed.
+        public const int HASH_SECTIONS = 5;
+        public const int HASH_ALGORITHM_INDEX = 0;
+        public const int ITERATION_INDEX = 1;
+        public const int HASH_SIZE_INDEX = 2;
+        public const int SALT_INDEX = 3;
+        public const int PBKDF2_INDEX = 4;
+
+        public static string CreateHash(string password)
         {
-            var options = optionsAccessor ?? new PasswordHasherOptions();
-
-            _compatibilityMode = options.CompatibilityMode;
-            switch (_compatibilityMode)
-            {
-                case PasswordHasherCompatibilityMode.IdentityV2:
-                    // nothing else to do
-                    break;
-
-                case PasswordHasherCompatibilityMode.IdentityV3:
-                    _iterCount = options.IterationCount;
-                    if (_iterCount < 1)
-                    {
-                        throw new InvalidOperationException(InvalidPasswordHasherIterationCount);
-                    }
-                    break;
-
-                default:
-                    throw new InvalidOperationException(InvalidPasswordHasherCompatibilityMode);
-            }
-
-            _rng = options.Rng;
-        }
-
-        /// <summary>
-        /// Hashes the password.
-        /// </summary>
-        /// <param name="password">The password.</param>
-        /// <returns>System.Byte[].</returns>
-        public byte[] HashPassword(string password)
-        {
-            return HashPasswordV3(password, _rng);
-        }
-
-        /// <summary>
-        /// Validates the password.
-        /// </summary>
-        /// <param name="password">The password.</param>
-        /// <param name="passwordHash">The password hash.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        public bool ValidatePassword(string password, byte[] passwordHash)
-        {
-            int iterations;
-            return VerifyHashedPasswordV3(passwordHash, password, out iterations);
-        }
-
-        /// <summary>
-        /// The iteration count must be a positive integer.
-        /// </summary>
-        internal static string InvalidPasswordHasherIterationCount => "InvalidPasswordHasherIterationCount";
-
-        /// <summary>
-        /// The provided PasswordHasherCompatibilityMode is invalid.
-        /// </summary>
-        internal static string InvalidPasswordHasherCompatibilityMode => "InvalidPasswordHasherCompatibilityMode";
-
-        private readonly PasswordHasherCompatibilityMode _compatibilityMode;
-        private readonly int _iterCount;
-        private readonly RandomNumberGenerator _rng;
-
-        private byte[] HashPasswordV3(string password, RandomNumberGenerator rng)
-        {
-            return HashPasswordV3(password, rng,
-                                  prf: KeyDerivationPrf.HMACSHA256,
-                                  iterCount: _iterCount,
-                                  saltSize: 128 / 8,
-                                  numBytesRequested: 256 / 8);
-        }
-
-        private static byte[] HashPasswordV3(string password, RandomNumberGenerator rng, KeyDerivationPrf prf, int iterCount, int saltSize,
-                                             int numBytesRequested)
-        {
-            // Produce a version 3 (see comment above) text hash.
-            byte[] salt = new byte[saltSize];
-            rng.GetBytes(salt);
-            byte[] subkey = KeyDerivation.Pbkdf2(password, salt, prf, iterCount, numBytesRequested);
-
-            var outputBytes = new byte[13 + salt.Length + subkey.Length];
-            outputBytes[0] = 0x01; // format marker
-            WriteNetworkByteOrder(outputBytes, 1, (uint)prf);
-            WriteNetworkByteOrder(outputBytes, 5, (uint)iterCount);
-            WriteNetworkByteOrder(outputBytes, 9, (uint)saltSize);
-            Buffer.BlockCopy(salt, 0, outputBytes, 13, salt.Length);
-            Buffer.BlockCopy(subkey, 0, outputBytes, 13 + saltSize, subkey.Length);
-            return outputBytes;
-        }
-
-        private static uint ReadNetworkByteOrder(byte[] buffer, int offset)
-        {
-            return ((uint)(buffer[offset + 0]) << 24)
-                   | ((uint)(buffer[offset + 1]) << 16)
-                   | ((uint)(buffer[offset + 2]) << 8)
-                   | ((uint)(buffer[offset + 3]));
-        }
-
-        private static bool VerifyHashedPasswordV3(byte[] hashedPassword, string password, out int iterCount)
-        {
-            iterCount = default(int);
-
+            // Generate a random salt
+            var salt = new byte[SALT_BYTES];
             try
             {
-                // Read header information
-                KeyDerivationPrf prf = (KeyDerivationPrf)ReadNetworkByteOrder(hashedPassword, 1);
-                iterCount = (int)ReadNetworkByteOrder(hashedPassword, 5);
-                int saltLength = (int)ReadNetworkByteOrder(hashedPassword, 9);
-
-                // Read the salt: must be >= 128 bits
-                if (saltLength < 128 / 8)
+                using (var csprng = new RNGCryptoServiceProvider())
                 {
-                    return false;
+                    csprng.GetBytes(salt);
                 }
-                byte[] salt = new byte[saltLength];
-                Buffer.BlockCopy(hashedPassword, 13, salt, 0, salt.Length);
-
-                // Read the subkey (the rest of the payload): must be >= 128 bits
-                int subkeyLength = hashedPassword.Length - 13 - salt.Length;
-                if (subkeyLength < 128 / 8)
-                {
-                    return false;
-                }
-                byte[] expectedSubkey = new byte[subkeyLength];
-                Buffer.BlockCopy(hashedPassword, 13 + salt.Length, expectedSubkey, 0, expectedSubkey.Length);
-
-                // Hash the incoming password and verify it
-                byte[] actualSubkey = KeyDerivation.Pbkdf2(password, salt, prf, iterCount, subkeyLength);
-                return ByteArraysEqual(actualSubkey, expectedSubkey);
             }
-            catch
+            catch (CryptographicException ex)
             {
-                // This should never occur except in the case of a malformed payload, where
-                // we might go off the end of the array. Regardless, a malformed payload
-                // implies verification failed.
-                return false;
+                throw new CannotPerformOperationException(
+                    "Random number generator not available.",
+                    ex
+                );
             }
+            catch (ArgumentNullException ex)
+            {
+                throw new CannotPerformOperationException(
+                    "Invalid argument given to random number generator.",
+                    ex
+                );
+            }
+
+            var hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTES);
+
+            // format: algorithm:iterations:hashSize:salt:hash
+            var parts = "sha1:" +
+                PBKDF2_ITERATIONS +
+                ":" +
+                hash.Length +
+                ":" +
+                Convert.ToBase64String(salt) +
+                ":" +
+                Convert.ToBase64String(hash);
+            return parts;
         }
 
-        private static void WriteNetworkByteOrder(byte[] buffer, int offset, uint value)
+        public static bool VerifyPassword(string password, string goodHash)
         {
-            buffer[offset + 0] = (byte)(value >> 24);
-            buffer[offset + 1] = (byte)(value >> 16);
-            buffer[offset + 2] = (byte)(value >> 8);
-            buffer[offset + 3] = (byte)(value >> 0);
+            char[] delimiter = { ':' };
+            var split = goodHash.Split(delimiter);
+
+            if (split.Length != HASH_SECTIONS)
+            {
+                throw new InvalidHashException(
+                    "Fields are missing from the password hash."
+                );
+            }
+
+            // We only support SHA1 with C#.
+            if (split[HASH_ALGORITHM_INDEX] != "sha1")
+            {
+                throw new CannotPerformOperationException(
+                    "Unsupported hash type."
+                );
+            }
+
+            var iterations = 0;
+            try
+            {
+                iterations = Int32.Parse(split[ITERATION_INDEX]);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new CannotPerformOperationException(
+                    "Invalid argument given to Int32.Parse",
+                    ex
+                );
+            }
+            catch (FormatException ex)
+            {
+                throw new InvalidHashException(
+                    "Could not parse the iteration count as an integer.",
+                    ex
+                );
+            }
+            catch (OverflowException ex)
+            {
+                throw new InvalidHashException(
+                    "The iteration count is too large to be represented.",
+                    ex
+                );
+            }
+
+            if (iterations < 1)
+            {
+                throw new InvalidHashException(
+                    "Invalid number of iterations. Must be >= 1."
+                );
+            }
+
+            byte[] salt = null;
+            try
+            {
+                salt = Convert.FromBase64String(split[SALT_INDEX]);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new CannotPerformOperationException(
+                    "Invalid argument given to Convert.FromBase64String",
+                    ex
+                );
+            }
+            catch (FormatException ex)
+            {
+                throw new InvalidHashException(
+                    "Base64 decoding of salt failed.",
+                    ex
+                );
+            }
+
+            byte[] hash = null;
+            try
+            {
+                hash = Convert.FromBase64String(split[PBKDF2_INDEX]);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new CannotPerformOperationException(
+                    "Invalid argument given to Convert.FromBase64String",
+                    ex
+                );
+            }
+            catch (FormatException ex)
+            {
+                throw new InvalidHashException(
+                    "Base64 decoding of pbkdf2 output failed.",
+                    ex
+                );
+            }
+
+            var storedHashSize = 0;
+            try
+            {
+                storedHashSize = Int32.Parse(split[HASH_SIZE_INDEX]);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new CannotPerformOperationException(
+                    "Invalid argument given to Int32.Parse",
+                    ex
+                );
+            }
+            catch (FormatException ex)
+            {
+                throw new InvalidHashException(
+                    "Could not parse the hash size as an integer.",
+                    ex
+                );
+            }
+            catch (OverflowException ex)
+            {
+                throw new InvalidHashException(
+                    "The hash size is too large to be represented.",
+                    ex
+                );
+            }
+
+            if (storedHashSize != hash.Length)
+            {
+                throw new InvalidHashException(
+                    "Hash length doesn't match stored hash length."
+                );
+            }
+
+            var testHash = PBKDF2(password, salt, iterations, hash.Length);
+            return SlowEquals(hash, testHash);
         }
 
-        // Compares two byte arrays for equality. The method is specifically written so that the loop is not optimized.
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private static bool ByteArraysEqual(byte[] a, byte[] b)
+        private static bool SlowEquals(byte[] a, byte[] b)
         {
-            if (a == null && b == null)
+            var diff = (uint)a.Length ^ (uint)b.Length;
+            for (int i = 0; i < a.Length && i < b.Length; i++)
             {
-                return true;
+                diff |= (uint)(a[i] ^ b[i]);
             }
-            if (a == null || b == null || a.Length != b.Length)
+            return diff == 0;
+        }
+
+        private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
+        {
+            using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt))
             {
-                return false;
+                pbkdf2.IterationCount = iterations;
+                return pbkdf2.GetBytes(outputBytes);
             }
-            var areSame = true;
-            for (var i = 0; i < a.Length; i++)
-            {
-                areSame &= (a[i] == b[i]);
-            }
-            return areSame;
         }
     }
 }

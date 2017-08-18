@@ -1,4 +1,10 @@
-﻿namespace LandmarkDevs.Core.Security
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LandmarkDevs.Core.Security
 {
     /// <summary>
     /// Class AnonymousIdentity.
