@@ -232,6 +232,7 @@ namespace LandmarkDevs.Core.Shared
         /// <returns>Guid.</returns>
         public static Guid GenerateTimeBasedGuid()
         {
+            System.Threading.Thread.Sleep(10);
             switch (GuidGeneration)
             {
                 case GuidGeneration.Fast:

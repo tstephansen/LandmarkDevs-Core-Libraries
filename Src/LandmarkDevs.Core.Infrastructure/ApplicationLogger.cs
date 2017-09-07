@@ -21,8 +21,18 @@ namespace LandmarkDevs.Core.Infrastructure
         /// <returns>ILogger.</returns>
         public static ILogger InitializeLogging()
         {
-            var path = CreateAppDataDirectory();
-            return InitializeLogging(path, false, null);
+            try
+            {
+                var path = CreateAppDataDirectory();
+                return InitializeLogging(path, false, null);
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error initializing application logging.");
+                System.Diagnostics.Debug.WriteLine(ex.Message.Trim());
+                LogManager.Configuration = new NLog.Config.LoggingConfiguration();
+                return _logger = LogManager.GetCurrentClassLogger();
+            }
         }
 
         /// <summary>
