@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
+using Microsoft.HockeyApp;
 
 namespace LandmarkDevs.Core.Telemetry
 {
@@ -41,5 +43,25 @@ namespace LandmarkDevs.Core.Telemetry
         /// <param name="location">The location.</param>
         /// <param name="user">The user.</param>
         void TrackError(Exception ex, string location, string user);
+
+        /// <summary>
+        /// Tracks the user's navigation through the application.
+        /// </summary>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="properties">The properties.</param>
+        void TrackNavigation(string viewName, TimeSpan duration, IDictionary<string, string> properties = null);
+
+        /// <summary>
+        /// Gets or sets the application client.
+        /// </summary>
+        /// <value>The application client.</value>
+        TelemetryClient AppClient { get; set; }
+
+        /// <summary>
+        /// Gets or sets the hockey client.
+        /// </summary>
+        /// <value>The hockey client.</value>
+        IHockeyClient HockeyClient { get; set; }
     }
 }

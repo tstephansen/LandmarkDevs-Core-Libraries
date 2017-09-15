@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using LandmarkDevs.Core.Infrastructure;
+using LandmarkDevs.Core.Telemetry;
 using NLog;
 using Prism.Events;
 using Prism.Regions;
@@ -126,5 +127,17 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         /// <value>The logger.</value>
         ILogger Logger { get; }
+
+        /// <summary>
+        /// Gets or sets the telemetry tracker.
+        /// </summary>
+        /// <value>The telemetry tracker.</value>
+        ITelemetryTracker TelemetryTracker { get; set; }
+
+        /// <summary>
+        /// Gets or sets the page timer.
+        /// </summary>
+        /// <value>The page timer.</value>
+        System.Diagnostics.Stopwatch PageTimer { get; set; }
     }
 }

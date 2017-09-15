@@ -1,0 +1,1 @@
+nuget pack Src/LandmarkDevs.Core.Prism/LandmarkDevs.Core.Prism.csproj -Build -Properties Configuration=Release

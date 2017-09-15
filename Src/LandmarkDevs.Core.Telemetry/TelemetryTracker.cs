@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.HockeyApp;
 
 namespace LandmarkDevs.Core.Telemetry
@@ -14,11 +16,12 @@ namespace LandmarkDevs.Core.Telemetry
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryTracker"/> class.
         /// </summary>
-        /// <param name="client">The client.</param>
-        /// <exception cref="System.ArgumentNullException">client</exception>
-        public TelemetryTracker(IHockeyClient client)
+        /// <param name="hockeyClient">The hockey client.</param>
+        /// <param name="appClient">The application client.</param>
+        public TelemetryTracker(IHockeyClient hockeyClient, TelemetryClient appClient)
         {
-            _client = client ?? throw new ArgumentNullException(nameof(client));
+            HockeyClient = hockeyClient;
+            AppClient = appClient;
         }
         /// <summary>
         /// Tracks the invalid action. This is called when the user tries to perform an action that isn't allowed.
@@ -31,14 +34,16 @@ namespace LandmarkDevs.Core.Telemetry
         {
             var dateStamp = DateTime.Today.ToShortDateString();
             var timeStamp = DateTime.Now.ToLongTimeString();
-            _client.TrackEvent("Invalid Action Event", new Dictionary<string, string>
+            var eventProperties = new Dictionary<string, string>
             {
                 {"User", user },
                 {"Location", location },
                 {"Summary", summary },
                 {"Date",  dateStamp},
                 {"Time", timeStamp }
-            });
+            };
+            if(HockeyClient != null) HockeyClient.TrackEvent("Invalid Action Event", eventProperties);
+            if (AppClient != null) AppClient.TrackEvent("Invalid Action Event", eventProperties);
         }
 
         /// <summary>
@@ -52,13 +57,15 @@ namespace LandmarkDevs.Core.Telemetry
         {
             var dateStamp = DateTime.Today.ToShortDateString();
             var timeStamp = DateTime.Now.ToLongTimeString();
-            _client.TrackEvent(actionName, new Dictionary<string, string>
+            var actionProperties = new Dictionary<string, string>
             {
                 {"User", user },
                 {"Summary", actionSummary },
                 {"Date",  dateStamp},
                 {"Time", timeStamp }
-            });
+            };
+            if(HockeyClient != null) HockeyClient.TrackEvent(actionName, actionProperties);
+            if(AppClient != null) AppClient.TrackEvent(actionName, actionProperties);
         }
 
         /// <summary>
@@ -84,7 +91,8 @@ namespace LandmarkDevs.Core.Telemetry
             {
                 actionProperties.Add(o.Key, o.Value);
             }
-            _client.TrackEvent(actionName, actionProperties);
+            if (HockeyClient != null) HockeyClient.TrackEvent(actionName, actionProperties);
+            if (AppClient != null) AppClient.TrackEvent(actionName, actionProperties);
         }
 
         /// <summary>
@@ -98,16 +106,51 @@ namespace LandmarkDevs.Core.Telemetry
         {
             var dateStamp = DateTime.Today.ToShortDateString();
             var timeStamp = DateTime.Now.ToLongTimeString();
-            _client.TrackException(ex, new Dictionary<string, string>
+            var eventProperties = new Dictionary<string, string>
             {
                 {"User", user },
                 {"Exception Message", ex.Message.Trim() },
                 {"Location", location },
                 {"Date", dateStamp },
                 {"Time", timeStamp }
-            });
+            };
+            if(HockeyClient != null) HockeyClient.TrackException(ex, eventProperties);
+            if (AppClient != null)
+            {
+                var appEx = new ExceptionTelemetry(ex);
+                AppClient.TrackException(appEx);
+                AppClient.TrackTrace(ex.StackTrace);
+                AppClient.Flush();
+            }
         }
 
-        private readonly IHockeyClient _client;
+        /// <summary>
+        /// Tracks the user's navigation through the application.
+        /// </summary>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="duration">The duration.</param>
+        /// <param name="properties">The properties.</param>
+        public virtual void TrackNavigation(string viewName, TimeSpan duration, IDictionary<string, string> properties = null)
+        {
+            if (AppClient == null) return;
+            var telemetryData = new PageViewTelemetry
+            {
+                Name = viewName,
+                Duration = duration,
+                Timestamp = DateTimeOffset.Now
+            };
+            if(properties.Count > 0)
+            {
+                foreach (var o in properties)
+                {
+                    telemetryData.Properties.Add(o.Key, o.Value);
+                }
+            }
+            AppClient.TrackPageView(telemetryData);
+        }
+
+        public virtual TelemetryClient AppClient { get; set; }
+
+        public virtual IHockeyClient HockeyClient { get; set; }
     }
 }

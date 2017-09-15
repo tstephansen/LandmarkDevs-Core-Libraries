@@ -1,0 +1,1 @@
+nuget pack Src/LandmarkDevs.Core.Telemetry/LandmarkDevs.Core.Telemetry.csproj -Build -Properties Configuration=Release

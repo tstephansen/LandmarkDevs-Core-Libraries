@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace LandmarkDevs.Core.Prism
 {
@@ -17,6 +18,10 @@ namespace LandmarkDevs.Core.Prism
     /// <seealso cref="INavigationAware" />
     public class NavigationBaseViewModel : BaseViewModel, INavigationBaseViewModel
     {
+        public NavigationBaseViewModel()
+        {
+            PageTimer = new Stopwatch();
+        }
         #region INavigationAware
         /// <summary>
         /// Called to determine if this instance can handle the navigation request.
@@ -43,6 +48,14 @@ namespace LandmarkDevs.Core.Prism
             var journalEntry = new RegionNavigationJournalEntry { Uri = navigationContext.Uri };
             NavigationJournal = NavigationJournal ?? ServiceLocator.Current.GetInstance<IRegionNavigationJournal>();
             NavigationJournal.RecordNavigation(journalEntry);
+            if (TelemetryTracker != null && TelemetryTracker.AppClient != null)
+            {
+                PageTimer.Stop();
+                if(NavigationJournal.CurrentEntry?.Uri != null)
+                {
+                    TelemetryTracker.TrackNavigation(NavigationJournal.CurrentEntry.Uri.ToString(), PageTimer.Elapsed);
+                }
+            }
         }
 
         /// <summary>
@@ -55,6 +68,10 @@ namespace LandmarkDevs.Core.Prism
             if (navigationContext == null)
                 throw new ArgumentNullException(nameof(navigationContext));
             NavigationJournal = navigationContext.NavigationService.Journal;
+            if (TelemetryTracker != null && TelemetryTracker.AppClient != null)
+            {
+                PageTimer = Stopwatch.StartNew();
+            }
         }
 
         #endregion INavigationAware
@@ -86,6 +103,15 @@ namespace LandmarkDevs.Core.Prism
                 ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Navigate"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.Navigate");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
+                if (TelemetryTracker != null)
+                {
+                    var user = Environment.UserName;
+                    if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                    {
+                        user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                    }
+                    TelemetryTracker.TrackError(ex, Title, user);
+                }
             }
         }
 
@@ -117,6 +143,15 @@ namespace LandmarkDevs.Core.Prism
                     "NavigationBaseViewModel.NavigateClose"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateClose");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
+                if (TelemetryTracker != null)
+                {
+                    var user = Environment.UserName;
+                    if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                    {
+                        user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                    }
+                    TelemetryTracker.TrackError(ex, Title, user);
+                }
             }
         }
 
@@ -140,6 +175,15 @@ namespace LandmarkDevs.Core.Prism
                     "NavigationBaseViewModel.NavigateWith"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateWith");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
+                if (TelemetryTracker != null)
+                {
+                    var user = Environment.UserName;
+                    if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                    {
+                        user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                    }
+                    TelemetryTracker.TrackError(ex, Title, user);
+                }
             }
         }
 
@@ -171,6 +215,15 @@ namespace LandmarkDevs.Core.Prism
                     "NavigationBaseViewModel.NavigateWithClose"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateWithClose");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
+                if (TelemetryTracker != null)
+                {
+                    var user = Environment.UserName;
+                    if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                    {
+                        user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                    }
+                    TelemetryTracker.TrackError(ex, Title, user);
+                }
             }
         }
 
@@ -198,6 +251,15 @@ namespace LandmarkDevs.Core.Prism
                 {
                     ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Close"));
                     Logger.Log(LogLevel.Error, ex.Message.Trim(), ex.Data);
+                    if (TelemetryTracker != null)
+                    {
+                        var user = Environment.UserName;
+                        if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                        {
+                            user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                        }
+                        TelemetryTracker.TrackError(ex, Title, user);
+                    }
                 }
             }
         }
@@ -229,6 +291,15 @@ namespace LandmarkDevs.Core.Prism
                 {
                     ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Close"));
                     Logger.Log(LogLevel.Error, ex.Message.Trim(), ex.Data);
+                    if(TelemetryTracker != null)
+                    {
+                        var user = Environment.UserName;
+                        if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                        {
+                            user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                        }
+                        TelemetryTracker.TrackError(ex, Title, user);
+                    }
                 }
             }
         }
@@ -263,6 +334,15 @@ namespace LandmarkDevs.Core.Prism
                     });
             Logger.Log(LogLevel.Error, "Region Navigation Failed!");
             Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
+            if (TelemetryTracker != null)
+            {
+                var user = Environment.UserName;
+                if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                {
+                    user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                }
+                TelemetryTracker.TrackError(ex, Title, user);
+            }
         }
 
         #endregion Region Navigation
@@ -292,6 +372,11 @@ namespace LandmarkDevs.Core.Prism
         /// <value>The error tracker.</value>
         public virtual IErrorTracker ErrorTracker { get; } = ServiceLocator.Current.GetInstance<IErrorTracker>();
 
+        /// <summary>
+        /// Gets or sets the page timer.
+        /// </summary>
+        /// <value>The page timer.</value>
+        public virtual Stopwatch PageTimer { get; set; }
         #endregion
     }
 }

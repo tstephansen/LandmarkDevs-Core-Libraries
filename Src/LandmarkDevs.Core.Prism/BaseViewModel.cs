@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using LandmarkDevs.Core.Telemetry;
 
 namespace LandmarkDevs.Core.Prism
 {
@@ -35,7 +36,7 @@ namespace LandmarkDevs.Core.Prism
             Logger = ServiceLocator.Current.TryResolve<ILogger>() ?? ApplicationLogger.InitializeLogging();
         }
 
-        #endregion Constructor
+        #endregion
 
         #region Fields
         /// <summary>
@@ -112,7 +113,13 @@ namespace LandmarkDevs.Core.Prism
         [ExcludeFromCodeCoverage]
         public virtual ILogger Logger { get; } = ServiceLocator.Current.GetInstance<ILogger>();
 
-        #endregion Fields
+        /// <summary>
+        /// Gets or sets the telemetry tracker.
+        /// </summary>
+        /// <value>The telemetry tracker.</value>
+        [ExcludeFromCodeCoverage]
+        public virtual ITelemetryTracker TelemetryTracker { get; set; }
+        #endregion
 
         #region IDisposable Support
         private bool _disposedValue;
@@ -142,7 +149,7 @@ namespace LandmarkDevs.Core.Prism
             GC.SuppressFinalize(this);
         }
 
-        #endregion IDisposable Support
+        #endregion
 
         #region INPC
         /// <summary>
@@ -177,6 +184,6 @@ namespace LandmarkDevs.Core.Prism
             storage = value;
             OnPropertyChanged(propertyName);
         }
-        #endregion INPC
+        #endregion
     }
 }
