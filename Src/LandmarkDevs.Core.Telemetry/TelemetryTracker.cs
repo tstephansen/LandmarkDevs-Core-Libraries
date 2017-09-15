@@ -7,12 +7,18 @@ using Microsoft.HockeyApp;
 namespace LandmarkDevs.Core.Telemetry
 {
     /// <summary>
-    /// Class TelemetryTracker.
     /// Used to track telemetry data.
     /// </summary>
     /// <seealso cref="ITelemetryTracker" />
     public class TelemetryTracker : ITelemetryTracker
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TelemetryTracker"/> class.
+        /// </summary>
+        public TelemetryTracker()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryTracker"/> class.
         /// </summary>
@@ -23,6 +29,7 @@ namespace LandmarkDevs.Core.Telemetry
             HockeyClient = hockeyClient;
             AppClient = appClient;
         }
+
         /// <summary>
         /// Tracks the invalid action. This is called when the user tries to perform an action that isn't allowed.
         /// </summary>
