@@ -12,13 +12,25 @@ namespace LandmarkDevs.Core.Telemetry
     /// </summary>
     public static class AppInsightsConfiguration
     {
-        public static TelemetryClient ConfigureApplicationInsights(string instrumentationKey)
+        public static TelemetryClient ConfigureApplicationInsights(string instrumentationKey, bool useLocal = false, string storageFolder = null)
         {
             var config = new TelemetryConfiguration
             {
-                InstrumentationKey = instrumentationKey,
-                TelemetryChannel = new Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.ServerTelemetryChannel()
+                InstrumentationKey = instrumentationKey
             };
+            if(useLocal)
+            {
+                var channel = new Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.ServerTelemetryChannel
+                {
+                    StorageFolder = storageFolder
+                };
+                channel.Initialize(TelemetryConfiguration.Active);
+                config.TelemetryChannel = channel;
+            }
+            else
+            {
+                config.TelemetryChannel = new Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.ServerTelemetryChannel();
+            }
             //config.TelemetryChannel = new Microsoft.ApplicationInsights.Channel.InMemoryChannel(); // Default channel
             config.TelemetryChannel.DeveloperMode = Debugger.IsAttached;
 #if DEBUG
@@ -34,12 +46,21 @@ namespace LandmarkDevs.Core.Telemetry
         }
 
         /// <summary>
-        /// Sets the user.
+        /// Sets the authenticated user.
         /// </summary>
         /// <param name="user">The user.</param>
-        public static void SetUser(string user)
+        public static void SetAuthenticatedUser(string user)
         {
             TelemetryClient.Context.User.AuthenticatedUserId = user;
+        }
+
+        /// <summary>
+        /// Sets the user.
+        /// </summary>
+        /// <param name="user"></param>
+        public static void SetUser(string user)
+        {
+            TelemetryClient.Context.User.Id = user;
         }
 
         /// <summary>

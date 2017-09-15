@@ -139,11 +139,14 @@ namespace LandmarkDevs.Core.Telemetry
                 Duration = duration,
                 Timestamp = DateTimeOffset.Now
             };
-            if(properties.Count > 0)
+            if(properties != null)
             {
-                foreach (var o in properties)
+                if(properties.Count > 0)
                 {
-                    telemetryData.Properties.Add(o.Key, o.Value);
+                    foreach (var o in properties)
+                    {
+                        telemetryData.Properties.Add(o.Key, o.Value);
+                    }
                 }
             }
             AppClient.TrackPageView(telemetryData);

@@ -22,6 +22,7 @@ namespace LandmarkDevs.Core.Prism
         {
             PageTimer = new Stopwatch();
         }
+        
         #region INavigationAware
         /// <summary>
         /// Called to determine if this instance can handle the navigation request.

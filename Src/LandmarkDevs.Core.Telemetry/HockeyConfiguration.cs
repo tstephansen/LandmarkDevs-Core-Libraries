@@ -93,7 +93,7 @@ namespace LandmarkDevs.Core.Telemetry
 
         private static void Configure(IReadOnlyList<string> userData, string applicationToken)
         {
-            Configure("ApplicationUser", "UnknownEmail@UnknownEmail.m", userData, applicationToken);
+            Configure("ApplicationUser", "UnknownEmail@UnknownEmail.com", userData, applicationToken);
         }
     }
 }
