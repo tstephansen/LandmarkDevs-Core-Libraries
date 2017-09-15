@@ -51,6 +51,7 @@ namespace LandmarkDevs.Core.Telemetry
             };
             if(HockeyClient != null) HockeyClient.TrackEvent("Invalid Action Event", eventProperties);
             if (AppClient != null) AppClient.TrackEvent("Invalid Action Event", eventProperties);
+            Flush();
         }
 
         /// <summary>
@@ -73,6 +74,7 @@ namespace LandmarkDevs.Core.Telemetry
             };
             if(HockeyClient != null) HockeyClient.TrackEvent(actionName, actionProperties);
             if(AppClient != null) AppClient.TrackEvent(actionName, actionProperties);
+            Flush();
         }
 
         /// <summary>
@@ -100,6 +102,7 @@ namespace LandmarkDevs.Core.Telemetry
             }
             if (HockeyClient != null) HockeyClient.TrackEvent(actionName, actionProperties);
             if (AppClient != null) AppClient.TrackEvent(actionName, actionProperties);
+            Flush();
         }
 
         /// <summary>
@@ -127,8 +130,8 @@ namespace LandmarkDevs.Core.Telemetry
                 var appEx = new ExceptionTelemetry(ex);
                 AppClient.TrackException(appEx);
                 AppClient.TrackTrace(ex.StackTrace);
-                AppClient.Flush();
             }
+            Flush();
         }
 
         /// <summary>
@@ -159,8 +162,16 @@ namespace LandmarkDevs.Core.Telemetry
             AppClient.TrackPageView(telemetryData);
         }
 
-        public virtual TelemetryClient AppClient { get; set; }
+        /// <summary>
+        /// Flushes the telemetry data.
+        /// </summary>
+        public virtual void Flush()
+        {
+            if (AppClient != null) AppClient.Flush();
+            if (HockeyClient != null) HockeyClient.Flush();
+        }
 
+        public virtual TelemetryClient AppClient { get; set; }
         public virtual IHockeyClient HockeyClient { get; set; }
     }
 }
