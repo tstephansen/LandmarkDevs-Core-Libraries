@@ -48,15 +48,17 @@ namespace LandmarkDevs.Core.Prism
                 throw new ArgumentNullException(nameof(navigationContext));
             var journalEntry = new RegionNavigationJournalEntry { Uri = navigationContext.Uri };
             NavigationJournal = NavigationJournal ?? ServiceLocator.Current.GetInstance<IRegionNavigationJournal>();
-            NavigationJournal.RecordNavigation(journalEntry);
-            if (TelemetryTracker != null && TelemetryTracker.AppClient != null)
+            if (TelemetryTracker?.AppClient == null)
             {
-                PageTimer.Stop();
-                if(NavigationJournal.CurrentEntry?.Uri != null)
-                {
-                    TelemetryTracker.TrackNavigation(NavigationJournal.CurrentEntry.Uri.ToString(), PageTimer.Elapsed);
-                }
+                NavigationJournal.RecordNavigation(journalEntry);
+                return;
             }
+            PageTimer.Stop();
+            if (NavigationJournal.CurrentEntry?.Uri != null)
+            {
+                TelemetryTracker.TrackNavigation(NavigationJournal.CurrentEntry.Uri.ToString(), PageTimer.Elapsed);
+            }
+            NavigationJournal.RecordNavigation(journalEntry);
         }
 
         /// <summary>

@@ -13,8 +13,24 @@ namespace LandmarkDevs.Core.Telemetry
     /// Code was mostly taken from https://www.meziantou.net/2017/03/29/use-application-insights-in-a-desktop-application
     /// Some of the context information methods were taken from https://github.com/NinetailLabs/VaraniumSharp.Initiator
     /// </summary>
-    public static class AppInsightsConfiguration
+    public class AppInsightsConfiguration
     {
+        /// <summary>
+        /// Configures Application Insights using the telemetry client that is passed into the constructor.
+        /// </summary>
+        /// <param name="client">The telemetry client.</param>
+        public static void ConfigureApplicationInsights(TelemetryClient client)
+        {
+            TelemetryClient = client;
+        }
+
+        /// <summary>
+        /// Configures Application Insights using the given instrumentation key.
+        /// </summary>
+        /// <param name="instrumentationKey">The .</param>
+        /// <param name="useLocal">If <c>true</c> telemetry data will be stored locally if the server endpoint is unavailable.</param>
+        /// <param name="storageFolder">The folder where offline telemetry data will be stored.</param>
+        /// <returns>TelemetryClient</returns>
         public static TelemetryClient ConfigureApplicationInsights(string instrumentationKey, bool useLocal = false, string storageFolder = null)
         {
             var config = new TelemetryConfiguration
