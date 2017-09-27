@@ -118,7 +118,7 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         /// <value>The telemetry tracker.</value>
         [ExcludeFromCodeCoverage]
-        public virtual ITelemetryTracker TelemetryTracker { get; set; }
+        public virtual ITelemetryTracker TelemetryTracker { get; set; } = ServiceLocator.Current.GetInstance<ITelemetryTracker>();
         #endregion
 
         #region IDisposable Support

@@ -178,12 +178,12 @@ namespace LandmarkDevs.Core.Prism
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
                 if (TelemetryTracker != null)
                 {
-                    var user = Environment.UserName;
-                    if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
-                    {
-                        user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
-                    }
-                    TelemetryTracker.TrackError(ex, Title, user);
+                   var user = Environment.UserName;
+                   if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                   {
+                       user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                   }
+                   TelemetryTracker.TrackError(ex, Title, user);
                 }
             }
         }

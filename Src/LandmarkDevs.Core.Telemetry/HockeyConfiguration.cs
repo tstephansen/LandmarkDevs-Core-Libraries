@@ -17,7 +17,7 @@ namespace LandmarkDevs.Core.Telemetry
         /// Searches for the user's information in the Active Directory.
         /// </summary>
         /// <returns>System.String[].</returns>
-        private static string[] SearchDirectoryForUserInformation()
+        internal static string[] SearchDirectoryForUserInformation()
         {
             string user;
             string email;
