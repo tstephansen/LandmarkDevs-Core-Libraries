@@ -26,15 +26,7 @@ namespace LandmarkDevs.Core.Security.Crypto
         public static byte[] CreateHash(string password, byte[] saltBytes = null)
         {
             // Generate a random salt
-            byte[] salt;
-            if (saltBytes == null)
-            {
-                salt = new byte[SALT_BYTES];
-            }
-            else
-            {
-                salt = saltBytes;
-            }
+            var salt = saltBytes ?? new byte[SALT_BYTES];
             try
             {
                 using (var csprng = new RNGCryptoServiceProvider())

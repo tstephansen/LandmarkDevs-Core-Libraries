@@ -10,6 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using LandmarkDevs.Core.Telemetry;
+#pragma warning disable S3881
 
 namespace LandmarkDevs.Core.Prism
 {
@@ -104,14 +105,14 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         /// <value>The event aggregator.</value>
         [ExcludeFromCodeCoverage]
-        public virtual IEventAggregator EventAggregator { get; } = ServiceLocator.Current.GetInstance<IEventAggregator>();
+        public virtual IEventAggregator EventAggregator { get; set; } = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
         /// <summary>
         /// Gets the logger.
         /// </summary>
         /// <value>The logger.</value>
         [ExcludeFromCodeCoverage]
-        public virtual ILogger Logger { get; } = ServiceLocator.Current.GetInstance<ILogger>();
+        public virtual ILogger Logger { get; set; } = ServiceLocator.Current.GetInstance<ILogger>();
 
         /// <summary>
         /// Gets or sets the telemetry tracker.
@@ -135,6 +136,7 @@ namespace LandmarkDevs.Core.Prism
                 return;
             if (disposing)
             {
+                // Not implemented here.
             }
             _disposedValue = true;
         }

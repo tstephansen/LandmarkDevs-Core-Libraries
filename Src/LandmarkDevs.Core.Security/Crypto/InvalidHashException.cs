@@ -1,4 +1,5 @@
 ﻿using System;
+#pragma warning disable S3925
 
 namespace LandmarkDevs.Core.Security.Crypto
 {

@@ -101,8 +101,7 @@ namespace LandmarkDevs.Core.Shared
 
         private void RemoveMessage(string propertyName)
         {
-            TrackerMessage removeValue;
-            ChangesNotes.TryRemove(propertyName, out removeValue);
+            ChangesNotes.TryRemove(propertyName, out var removeValue);
             RaiseOnModified(propertyName);
         }
 

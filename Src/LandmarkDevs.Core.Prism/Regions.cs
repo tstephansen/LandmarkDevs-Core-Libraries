@@ -4,7 +4,7 @@
     {
         static Regions()
         {
-            MainRegion = "MainRegion";
+            MainRegion = nameof(MainRegion);
         }
 
         public static string MainRegion { get; set; }
