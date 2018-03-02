@@ -169,23 +169,21 @@ namespace LandmarkDevs.Core.Prism
             Logger.Log(LogLevel.Info, message);
             try
             {
-                RegionManager.RequestNavigate(Regions.MainRegion, navModel.ViewName, NavigationCallback,
-                    navModel.NavigationParameters);
+                RegionManager.RequestNavigate(Regions.MainRegion, navModel.ViewName, NavigationCallback, navModel.NavigationParameters);
             }
             catch (Exception ex)
             {
-                ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName,
-                    "NavigationBaseViewModel.NavigateWith"));
+                ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.NavigateWith"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateWith");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
                 if (TelemetryTracker != null)
                 {
-                   var user = Environment.UserName;
-                   if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
-                   {
-                       user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
-                   }
-                   TelemetryTracker.TrackError(ex, Title, user);
+                    var user = Environment.UserName;
+                    if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
+                    {
+                        user = TelemetryTracker.AppClient.Context.User.AuthenticatedUserId;
+                    }
+                    TelemetryTracker.TrackError(ex, Title, user);
                 }
             }
         }
@@ -355,7 +353,7 @@ namespace LandmarkDevs.Core.Prism
         /// Gets the navigation service.
         /// </summary>
         /// <value>The navigation service.</value>
-        public virtual IRegionNavigationService NavigationService { get; } = ServiceLocator.Current.GetInstance<IRegionNavigationService>();
+        public virtual IRegionNavigationService NavigationService { get; set; } = ServiceLocator.Current.GetInstance<IRegionNavigationService>();
 
         /// <summary>
         /// Gets or sets the navigation journal.
@@ -367,13 +365,13 @@ namespace LandmarkDevs.Core.Prism
         /// Gets the region manager.
         /// </summary>
         /// <value>The region manager.</value>
-        public virtual IRegionManager RegionManager { get; } = ServiceLocator.Current.GetInstance<IRegionManager>();
+        public virtual IRegionManager RegionManager { get; set; } = ServiceLocator.Current.GetInstance<IRegionManager>();
 
         /// <summary>
         /// Gets the error tracker.
         /// </summary>
         /// <value>The error tracker.</value>
-        public virtual IErrorTracker ErrorTracker { get; } = ServiceLocator.Current.GetInstance<IErrorTracker>();
+        public virtual IErrorTracker ErrorTracker { get; set; } = ServiceLocator.Current.GetInstance<IErrorTracker>();
 
         /// <summary>
         /// Gets or sets the page timer.
