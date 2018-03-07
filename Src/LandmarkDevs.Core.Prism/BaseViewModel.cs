@@ -28,12 +28,6 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         public BaseViewModel()
         {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                var container = new UnityContainer();
-                ServiceLocator.SetLocatorProvider(() => new UnityServiceLocatorAdapter(container));
-                return;
-            }
             Logger = ServiceLocator.Current.TryResolve<ILogger>() ?? ApplicationLogger.InitializeLogging();
         }
 
@@ -46,18 +40,9 @@ namespace LandmarkDevs.Core.Prism
         /// <value>The title.</value>
         public string Title
         {
-            get { return _title; }
-
-            set
-            {
-                if (_title != value)
-                {
-                    _title = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => _title;
+            set => Set(ref _title, value);
         }
-
         private string _title;
 
         /// <summary>
@@ -66,18 +51,9 @@ namespace LandmarkDevs.Core.Prism
         /// <value>The view identifier.</value>
         public string ViewId
         {
-            get { return _viewId; }
-
-            set
-            {
-                if (_viewId != value)
-                {
-                    _viewId = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => _viewId;
+            set => Set(ref _viewId, value);
         }
-
         private string _viewId;
 
         /// <summary>
@@ -86,16 +62,8 @@ namespace LandmarkDevs.Core.Prism
         /// <value>The visual state.</value>
         public string VisualState
         {
-            get { return _visualState; }
-
-            set
-            {
-                if (_visualState != value)
-                {
-                    _visualState = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => _visualState;
+            set => Set(ref _visualState, value);
         }
 
         private string _visualState;
@@ -187,5 +155,18 @@ namespace LandmarkDevs.Core.Prism
             OnPropertyChanged(propertyName);
         }
         #endregion
+    }
+
+    public class UnityBaseViewModel : BaseViewModel
+    {
+        public UnityBaseViewModel()
+        {
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                var container = new UnityContainer();
+                ServiceLocator.SetLocatorProvider(() => new UnityServiceLocatorAdapter(container));
+                return;
+            }
+        }
     }
 }
