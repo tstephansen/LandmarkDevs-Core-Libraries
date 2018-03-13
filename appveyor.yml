@@ -1,0 +1,33 @@
+version: 2.0.{build}
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+build:
+  project: LandmarkDevs Core Libraries.sln
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
+  verbosity: normal
+notifications:
+- provider: Email
+  to:
+  - tim@landmarkdevs.com
+  subject: '[AppVeyor] LandmarkDevs Core Libraries Build Success'
+  message: LandmarkDevs Core Libraries has been built successfully.
+  on_build_success: true
+  on_build_failure: false
+  on_build_status_changed: false
+- provider: Email
+  to:
+  - tim@landmarkdevs.com
+  subject: '[AppVeyor] LandmarkDevs Core Libraries Build Failed'
+  message: LandmarkDevs Core Libraries has failed to build.
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: false
