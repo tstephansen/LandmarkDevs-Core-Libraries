@@ -26,10 +26,8 @@ namespace LandmarkDevs.Core.Infrastructure
                 var path = CreateAppDataDirectory();
                 return InitializeLogging(path, false, null);
             }
-            catch(Exception ex)
+            catch
             {
-                System.Diagnostics.Debug.WriteLine("Error initializing application logging.");
-                System.Diagnostics.Debug.WriteLine(ex.Message.Trim());
                 LogManager.Configuration = new NLog.Config.LoggingConfiguration();
                 return _logger = LogManager.GetCurrentClassLogger();
             }
