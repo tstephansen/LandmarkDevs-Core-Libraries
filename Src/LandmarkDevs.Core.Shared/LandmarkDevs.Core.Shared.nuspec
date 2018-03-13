@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library contains a Guid Generator, a change tracking model, a tracking message model, some extension methods, and a helper class used for progress reporting during async operations.</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018 - Tim Stephansen</copyright>
+    <tags>LandmarkDevs Shared</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\LandmarkDevs.Core.Shared.pdb" target="lib\net462\LandmarkDevs.Core.Shared.pdb" />
+  </files>
+</package>

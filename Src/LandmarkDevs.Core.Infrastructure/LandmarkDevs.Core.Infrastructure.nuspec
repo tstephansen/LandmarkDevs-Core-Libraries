@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library contains Observable and RelayCommand classes for ViewModels, error tracking functions, and logging functions.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018 - Tim Stephansen</copyright>
+    <tags>LandmarkDevs Infrastructure</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\LandmarkDevs.Core.Infrastructure.pdb" target="lib\net462\LandmarkDevs.Core.Infrastructure.pdb" />
+  </files>
+</package>

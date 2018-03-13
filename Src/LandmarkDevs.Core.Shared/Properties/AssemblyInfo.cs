@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("LandmarkDevs.Core.Shared")]
 [assembly: AssemblyDescription("This library contains a Guid Generator, a change tracking model, a tracking message model, some extension methods, and a helper class used for progress reporting during async operations.")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("Tim Stephansen")]
 [assembly: AssemblyProduct("LandmarkDevs.Core.Shared")]
-[assembly: AssemblyCopyright("Copyright © Tim Stephansen 2017")]
+[assembly: AssemblyCopyright("Copyright © Tim Stephansen 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.1.4")]
-[assembly: AssemblyFileVersion("2.1.4")]
+[assembly: AssemblyVersion("3.0.0")]
+[assembly: AssemblyFileVersion("3.0.0")]

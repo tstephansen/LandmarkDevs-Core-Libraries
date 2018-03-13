@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library is useful when using the Prism Library in an application.</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018 - Tim Stephansen</copyright>
+    <tags>LandmarkDevs Prism</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\LandmarkDevs.Core.Prism.pdb" target="lib\net462\LandmarkDevs.Core.Prism.pdb" />
+  </files>
+</package>

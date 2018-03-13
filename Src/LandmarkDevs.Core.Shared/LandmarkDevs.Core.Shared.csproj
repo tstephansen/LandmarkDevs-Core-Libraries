@@ -72,6 +72,7 @@
     <Compile Include="TrackerMessage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="LandmarkDevs.Core.Shared.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

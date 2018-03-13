@@ -109,6 +109,7 @@
     <None Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="LandmarkDevs.Core.Prism.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -10,5 +10,10 @@ namespace LandmarkDevs.Core.Infrastructure
         /// Called when the can execute value has changed.
         /// </summary>
         void OnCanExecuteChanged();
+        /// <summary>
+        /// Raises <see cref="CanExecuteChanged"/> so every command invoker
+        /// can requery to check if the command can execute.
+        /// </summary>
+        void RaiseCanExecuteChanged();
     }
 }

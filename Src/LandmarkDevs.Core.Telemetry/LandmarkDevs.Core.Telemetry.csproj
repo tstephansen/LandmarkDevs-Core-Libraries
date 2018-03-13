@@ -86,6 +86,7 @@
     <None Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="LandmarkDevs.Core.Telemetry.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

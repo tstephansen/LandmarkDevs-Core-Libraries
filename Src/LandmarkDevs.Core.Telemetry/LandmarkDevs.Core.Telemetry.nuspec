@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library contains classes useful for telemetry tracking with HockeyApp and Application Insights.</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018 - Tim Stephansen</copyright>
+    <tags>LandmarkDevs Telemetry</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\LandmarkDevs.Core.Telemetry.pdb" target="lib\net462\LandmarkDevs.Core.Telemetry.pdb" />
+  </files>
+</package>
