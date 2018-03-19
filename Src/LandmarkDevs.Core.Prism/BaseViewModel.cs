@@ -8,16 +8,13 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using LandmarkDevs.Core.Telemetry;
 #pragma warning disable S3881
 
 namespace LandmarkDevs.Core.Prism
 {
     /// <summary>
-    /// Class BaseViewModel.
-    /// The base for all of the view models in the application. This class contains the navigation,
-    /// logging, and unity methods.
+    /// The base for all of the view models in the application.
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class BaseViewModel : INotifyPropertyChanged, IDisposable
@@ -28,7 +25,10 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         public BaseViewModel()
         {
-            Logger = ServiceLocator.Current.TryResolve<ILogger>() ?? ApplicationLogger.InitializeLogging();
+            Logger = ServiceLocator.Current != null 
+                ? ServiceLocator.Current.TryResolve<ILogger>() 
+                ?? ApplicationLogger.InitializeLogging() 
+                : ApplicationLogger.InitializeLogging();
         }
 
         #endregion
@@ -80,7 +80,7 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         /// <value>The logger.</value>
         [ExcludeFromCodeCoverage]
-        public virtual ILogger Logger { get; set; } = ServiceLocator.Current.GetInstance<ILogger>();
+        public virtual ILogger Logger { get; set; }
 
         /// <summary>
         /// Gets or sets the telemetry tracker.
@@ -155,18 +155,5 @@ namespace LandmarkDevs.Core.Prism
             OnPropertyChanged(propertyName);
         }
         #endregion
-    }
-
-    public class UnityBaseViewModel : BaseViewModel
-    {
-        public UnityBaseViewModel()
-        {
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-            {
-                var container = new UnityContainer();
-                ServiceLocator.SetLocatorProvider(() => new UnityServiceLocatorAdapter(container));
-                return;
-            }
-        }
     }
 }

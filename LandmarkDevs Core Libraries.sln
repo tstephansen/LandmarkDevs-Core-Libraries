@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Shared", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Tests", "Src\LandmarkDevs.Core.Tests\LandmarkDevs.Core.Tests.csproj", "{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Infrastructure", "Src\LandmarkDevs.Infrastructure\LandmarkDevs.Infrastructure.csproj", "{8C1E0994-6FF3-4FA8-83F4-1F5209889918}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C1E0994-6FF3-4FA8-83F4-1F5209889918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C1E0994-6FF3-4FA8-83F4-1F5209889918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C1E0994-6FF3-4FA8-83F4-1F5209889918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C1E0994-6FF3-4FA8-83F4-1F5209889918}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

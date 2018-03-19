@@ -103,6 +103,7 @@
     <Compile Include="RegionNavigationJournalWrapper.cs" />
     <Compile Include="Regions.cs" />
     <Compile Include="TabablzControlRegionAdapter.cs" />
+    <Compile Include="UnityBaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

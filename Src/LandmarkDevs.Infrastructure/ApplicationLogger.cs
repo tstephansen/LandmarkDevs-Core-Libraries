@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace LandmarkDevs.Core.Infrastructure
+namespace LandmarkDevs.Infrastructure
 {
     /// <summary>
     /// Class ApplicationLogger.
@@ -28,9 +28,10 @@ namespace LandmarkDevs.Core.Infrastructure
             }
             catch(Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Application Logging failed to initialize.\n{ex.Message.Trim()}");
-                LogManager.Configuration = new NLog.Config.LoggingConfiguration();
-                return _logger = LogManager.GetCurrentClassLogger();
+                LogManager.Configuration = new LoggingConfiguration();
+                _logger = LogManager.GetCurrentClassLogger();
+                _logger.Log(LogLevel.Warn, ex);
+                return _logger;
             }
         }
 

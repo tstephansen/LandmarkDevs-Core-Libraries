@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
 
 namespace LandmarkDevs.Core.Prism
 {
@@ -22,7 +21,7 @@ namespace LandmarkDevs.Core.Prism
         {
             PageTimer = new Stopwatch();
         }
-        
+
         #region INavigationAware
         /// <summary>
         /// Called to determine if this instance can handle the navigation request.
@@ -48,13 +47,13 @@ namespace LandmarkDevs.Core.Prism
                 throw new ArgumentNullException(nameof(navigationContext));
             var journalEntry = new RegionNavigationJournalEntry { Uri = navigationContext.Uri };
             NavigationJournal = NavigationJournal ?? ServiceLocator.Current.GetInstance<IRegionNavigationJournal>();
-            if (TelemetryTracker?.AppClient == null)
+            if (TelemetryTracker?.AppClient == null && !IsTelemetryDisabled)
             {
                 NavigationJournal.RecordNavigation(journalEntry);
                 return;
             }
             PageTimer.Stop();
-            if (NavigationJournal.CurrentEntry?.Uri != null)
+            if (NavigationJournal.CurrentEntry?.Uri != null && !IsTelemetryDisabled)
             {
                 TelemetryTracker.TrackNavigation(NavigationJournal.CurrentEntry.Uri.ToString(), PageTimer.Elapsed);
             }
@@ -71,7 +70,7 @@ namespace LandmarkDevs.Core.Prism
             if (navigationContext == null)
                 throw new ArgumentNullException(nameof(navigationContext));
             NavigationJournal = navigationContext.NavigationService.Journal;
-            if (TelemetryTracker != null && TelemetryTracker.AppClient != null)
+            if (TelemetryTracker != null && TelemetryTracker.AppClient != null && !IsTelemetryDisabled)
             {
                 PageTimer = Stopwatch.StartNew();
             }
@@ -106,7 +105,7 @@ namespace LandmarkDevs.Core.Prism
                 ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Navigate"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.Navigate");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
-                if (TelemetryTracker != null)
+                if (TelemetryTracker != null && !IsTelemetryDisabled)
                 {
                     var user = Environment.UserName;
                     if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -146,7 +145,7 @@ namespace LandmarkDevs.Core.Prism
                     "NavigationBaseViewModel.NavigateClose"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateClose");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
-                if (TelemetryTracker != null)
+                if (TelemetryTracker != null && !IsTelemetryDisabled)
                 {
                     var user = Environment.UserName;
                     if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -176,7 +175,7 @@ namespace LandmarkDevs.Core.Prism
                 ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.NavigateWith"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateWith");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
-                if (TelemetryTracker != null)
+                if (TelemetryTracker != null && !IsTelemetryDisabled)
                 {
                     var user = Environment.UserName;
                     if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -216,7 +215,7 @@ namespace LandmarkDevs.Core.Prism
                     "NavigationBaseViewModel.NavigateWithClose"));
                 Logger.Log(LogLevel.Error, "Failed to navigate to view. Location: NavigationBaseViewModel.NavigateWithClose");
                 Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
-                if (TelemetryTracker != null)
+                if (TelemetryTracker != null && !IsTelemetryDisabled)
                 {
                     var user = Environment.UserName;
                     if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -252,7 +251,7 @@ namespace LandmarkDevs.Core.Prism
                 {
                     ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Close"));
                     Logger.Log(LogLevel.Error, ex.Message.Trim(), ex.Data);
-                    if (TelemetryTracker != null)
+                    if (TelemetryTracker != null && !IsTelemetryDisabled)
                     {
                         var user = Environment.UserName;
                         if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -292,7 +291,7 @@ namespace LandmarkDevs.Core.Prism
                 {
                     ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Close"));
                     Logger.Log(LogLevel.Error, ex.Message.Trim(), ex.Data);
-                    if(TelemetryTracker != null)
+                    if(TelemetryTracker != null && !IsTelemetryDisabled)
                     {
                         var user = Environment.UserName;
                         if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -335,7 +334,7 @@ namespace LandmarkDevs.Core.Prism
                     });
             Logger.Log(LogLevel.Error, "Region Navigation Failed!");
             Logger.Log(LogLevel.Error, ex, ex.Message.Trim(), ex.StackTrace);
-            if (TelemetryTracker != null)
+            if (TelemetryTracker != null && !IsTelemetryDisabled)
             {
                 var user = Environment.UserName;
                 if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -378,6 +377,12 @@ namespace LandmarkDevs.Core.Prism
         /// </summary>
         /// <value>The page timer.</value>
         public virtual Stopwatch PageTimer { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether telemetry is disabled for this instance.
+        /// </summary>
+        /// <value><c>true</c> if telemetry is disabled for this instance; otherwise, <c>false</c>.</value>
+        public virtual bool IsTelemetryDisabled { get; set; }
         #endregion
     }
 }

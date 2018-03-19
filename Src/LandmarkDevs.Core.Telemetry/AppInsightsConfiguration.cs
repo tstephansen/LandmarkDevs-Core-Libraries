@@ -50,7 +50,6 @@ namespace LandmarkDevs.Core.Telemetry
             {
                 config.TelemetryChannel = new Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.ServerTelemetryChannel();
             }
-            //config.TelemetryChannel = new Microsoft.ApplicationInsights.Channel.InMemoryChannel(); // Default channel
             config.TelemetryChannel.DeveloperMode = Debugger.IsAttached;
 #if DEBUG
             config.TelemetryChannel.DeveloperMode = true;
@@ -68,7 +67,7 @@ namespace LandmarkDevs.Core.Telemetry
 
         public static string GetCurrentUserInformation()
         {
-            string domainName = string.Empty;
+            var domainName = string.Empty;
             try
             {
                 domainName = System.DirectoryServices.ActiveDirectory.Domain.GetComputerDomain().Name;
