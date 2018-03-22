@@ -1,33 +1,31 @@
 ﻿using LandmarkDevs.Core.Infrastructure;
+using LandmarkDevs.Core.Telemetry;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using NLog;
 using Prism.Events;
 using Prism.Unity;
-using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using LandmarkDevs.Core.Telemetry;
 #pragma warning disable S3881
 
 namespace LandmarkDevs.Core.Prism
 {
     /// <summary>
-    /// The base for all of the view models in the application.
+    ///     The base for all of the view models in the application.
     /// </summary>
-    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-    public class BaseViewModel : INotifyPropertyChanged, IDisposable
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged"/>
+    public class BaseViewModel : INotifyPropertyChanged
     {
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseViewModel"/> class.
+        ///     Initializes a new instance of the <see cref="BaseViewModel"/> class.
         /// </summary>
         public BaseViewModel()
         {
-            Logger = ServiceLocator.Current != null 
-                ? ServiceLocator.Current.TryResolve<ILogger>() 
-                ?? ApplicationLogger.InitializeLogging() 
+            Logger = ServiceLocator.Current != null
+                ? ServiceLocator.Current.TryResolve<ILogger>()
+                ?? ApplicationLogger.InitializeLogging()
                 : ApplicationLogger.InitializeLogging();
         }
 
@@ -35,7 +33,7 @@ namespace LandmarkDevs.Core.Prism
 
         #region Fields
         /// <summary>
-        /// Gets or sets the title.
+        ///     Gets or sets the title.
         /// </summary>
         /// <value>The title.</value>
         public string Title
@@ -46,7 +44,7 @@ namespace LandmarkDevs.Core.Prism
         private string _title;
 
         /// <summary>
-        /// Gets or sets the view identifier.
+        ///     Gets or sets the view identifier.
         /// </summary>
         /// <value>The view identifier.</value>
         public string ViewId
@@ -57,7 +55,7 @@ namespace LandmarkDevs.Core.Prism
         private string _viewId;
 
         /// <summary>
-        /// Gets or sets the visual state.
+        ///     Gets or sets the visual state.
         /// </summary>
         /// <value>The visual state.</value>
         public string VisualState
@@ -69,67 +67,36 @@ namespace LandmarkDevs.Core.Prism
         private string _visualState;
 
         /// <summary>
-        /// Gets the event aggregator.
+        ///     Gets the event aggregator.
         /// </summary>
         /// <value>The event aggregator.</value>
         [ExcludeFromCodeCoverage]
         public virtual IEventAggregator EventAggregator { get; set; } = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
         /// <summary>
-        /// Gets the logger.
+        ///     Gets the logger.
         /// </summary>
         /// <value>The logger.</value>
         [ExcludeFromCodeCoverage]
         public virtual ILogger Logger { get; set; }
 
         /// <summary>
-        /// Gets or sets the telemetry tracker.
+        ///     Gets or sets the telemetry tracker.
         /// </summary>
         /// <value>The telemetry tracker.</value>
         [ExcludeFromCodeCoverage]
         public virtual ITelemetryTracker TelemetryTracker { get; set; } = ServiceLocator.Current.GetInstance<ITelemetryTracker>();
         #endregion
 
-        #region IDisposable Support
-        private bool _disposedValue;
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        [ExcludeFromCodeCoverage]
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-            if (disposing)
-            {
-                // Not implemented here.
-            }
-            _disposedValue = true;
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        [ExcludeFromCodeCoverage]
-        public virtual void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
         #region INPC
         /// <summary>
-        /// Occurs when a property value changes.
+        ///     Occurs when a property value changes.
         /// </summary>
         [ExcludeFromCodeCoverage]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Called when a property is changed.
+        ///     Called when a property is changed.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         [ExcludeFromCodeCoverage]
@@ -139,7 +106,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Sets the property to the specified value.
+        ///     Sets the property to the specified value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="storage">The property who's value will change.</param>

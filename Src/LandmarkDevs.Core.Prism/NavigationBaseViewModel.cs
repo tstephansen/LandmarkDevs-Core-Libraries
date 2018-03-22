@@ -11,12 +11,15 @@ using System.Windows.Controls;
 namespace LandmarkDevs.Core.Prism
 {
     /// <summary>
-    /// Class NavigationBaseViewModel.
+    ///     Used as a base class for view models that are used for navigating between views in Prism.
     /// </summary>
-    /// <seealso cref="BaseViewModel" />
-    /// <seealso cref="INavigationAware" />
+    /// <seealso cref="LandmarkDevs.Core.Prism.BaseViewModel"/>
+    /// <seealso cref="LandmarkDevs.Core.Prism.INavigationBaseViewModel"/>
     public class NavigationBaseViewModel : BaseViewModel, INavigationBaseViewModel
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="NavigationBaseViewModel"/> class.
+        /// </summary>
         public NavigationBaseViewModel()
         {
             PageTimer = new Stopwatch();
@@ -24,10 +27,12 @@ namespace LandmarkDevs.Core.Prism
 
         #region INavigationAware
         /// <summary>
-        /// Called to determine if this instance can handle the navigation request.
+        ///     Called to determine if this instance can handle the navigation request.
         /// </summary>
         /// <param name="navigationContext">The navigation context.</param>
-        /// <returns><see langword="true" /> if this instance accepts the navigation request; otherwise, <see langword="false" />.</returns>
+        /// <returns>
+        ///     <see langword="true"/> if this instance accepts the navigation request; otherwise, <see langword="false"/>.
+        /// </returns>
         /// <exception cref="System.ArgumentNullException"></exception>
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
         {
@@ -37,7 +42,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Called when the implementer is being navigated away from.
+        ///     Called when the implementer is being navigated away from.
         /// </summary>
         /// <param name="navigationContext">The navigation context.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
@@ -61,7 +66,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Called when the implementer has been navigated to.
+        ///     Called when the implementer has been navigated to.
         /// </summary>
         /// <param name="navigationContext">The navigation context.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
@@ -80,7 +85,7 @@ namespace LandmarkDevs.Core.Prism
 
         #region Region Navigation
         /// <summary>
-        /// Navigates the specified view name.
+        ///     Navigates the specified view.
         /// </summary>
         /// <param name="viewName">Name of the view.</param>
         public virtual void Navigate(string viewName)
@@ -90,7 +95,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Navigates the specified view.
+        ///     Navigates the specified view.
         /// </summary>
         /// <param name="navModel">The nav model.</param>
         public virtual void Navigate(INavModel navModel)
@@ -118,7 +123,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Navigates the close.
+        ///     Navigates to the specified view and closes the current view.
         /// </summary>
         /// <param name="viewName">Name of the view.</param>
         public virtual void NavigateClose(string viewName)
@@ -128,7 +133,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Navigates to the specified view and closes the current view.
+        ///     Navigates to the specified view and closes the current view.
         /// </summary>
         /// <param name="navModel">The nav model.</param>
         public virtual void NavigateClose(INavModel navModel)
@@ -158,7 +163,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Navigates to the specified view with parameters.
+        ///     Navigates to the specified view with parameters.
         /// </summary>
         /// <param name="navModel">The nav model.</param>
         public virtual void NavigateWith(INavModel navModel)
@@ -188,7 +193,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Navigates to the specified view with parameters and closes the current view.
+        ///     Navigates to the specified view with parameters and closes the current view.
         /// </summary>
         /// <param name="navModel">The nav model.</param>
         public virtual void NavigateWithClose(INavModel navModel)
@@ -228,7 +233,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Closes the specified view.
+        ///     Closes the specified view.
         /// </summary>
         /// <param name="navModel">The nav model.</param>
         public virtual void Close(INavModel navModel)
@@ -265,7 +270,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Closes the specified view.
+        ///     Closes the specified view.
         /// </summary>
         /// <param name="viewModel">The view model.</param>
         /// <param name="viewId">The view identifier.</param>
@@ -291,7 +296,7 @@ namespace LandmarkDevs.Core.Prism
                 {
                     ErrorTracker.LogError(new ErrorModel(ex, Environment.UserName, "NavigationBaseViewModel.Close"));
                     Logger.Log(LogLevel.Error, ex.Message.Trim(), ex.Data);
-                    if(TelemetryTracker != null && !IsTelemetryDisabled)
+                    if (TelemetryTracker != null && !IsTelemetryDisabled)
                     {
                         var user = Environment.UserName;
                         if (TelemetryTracker.AppClient.Context.User.AuthenticatedUserId != null)
@@ -305,7 +310,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Called when the navigation action has completed.
+        ///     Called when the navigation action has completed.
         /// </summary>
         /// <param name="result">The result.</param>
         public virtual void NavigationCallback(NavigationResult result)
@@ -319,7 +324,7 @@ namespace LandmarkDevs.Core.Prism
         }
 
         /// <summary>
-        /// Called when navigation fails.
+        ///     Called when navigation fails.
         /// </summary>
         /// <param name="ex">The ex.</param>
         public virtual void OnNavigationFailed(Exception ex)
@@ -349,37 +354,37 @@ namespace LandmarkDevs.Core.Prism
 
         #region Variables
         /// <summary>
-        /// Gets the navigation service.
+        ///     Gets or sets the navigation service.
         /// </summary>
         /// <value>The navigation service.</value>
         public virtual IRegionNavigationService NavigationService { get; set; } = ServiceLocator.Current.GetInstance<IRegionNavigationService>();
 
         /// <summary>
-        /// Gets or sets the navigation journal.
+        ///     Gets or sets the navigation journal.
         /// </summary>
         /// <value>The navigation journal.</value>
         public virtual IRegionNavigationJournal NavigationJournal { get; set; }
 
         /// <summary>
-        /// Gets the region manager.
+        ///     Gets or sets the region manager.
         /// </summary>
         /// <value>The region manager.</value>
         public virtual IRegionManager RegionManager { get; set; } = ServiceLocator.Current.GetInstance<IRegionManager>();
 
         /// <summary>
-        /// Gets the error tracker.
+        ///     Gets or sets the error tracker.
         /// </summary>
         /// <value>The error tracker.</value>
         public virtual IErrorTracker ErrorTracker { get; set; } = ServiceLocator.Current.GetInstance<IErrorTracker>();
 
         /// <summary>
-        /// Gets or sets the page timer.
+        ///     Gets or sets the page timer.
         /// </summary>
         /// <value>The page timer.</value>
         public virtual Stopwatch PageTimer { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether telemetry is disabled for this instance.
+        ///     Gets or sets a value indicating whether telemetry is disabled for this instance.
         /// </summary>
         /// <value><c>true</c> if telemetry is disabled for this instance; otherwise, <c>false</c>.</value>
         public virtual bool IsTelemetryDisabled { get; set; }

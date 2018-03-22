@@ -12,7 +12,7 @@ namespace LandmarkDevs.Core.Prism
     /// Used as the base view model for Prism Applications.
     /// </summary>
     /// <seealso cref="LandmarkDevs.Core.Prism.BaseViewModel" />
-    public class UnityBaseViewModel : BaseViewModel
+    public class UnityBaseViewModel : NavigationBaseViewModel
     {
         public UnityBaseViewModel()
         {

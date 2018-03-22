@@ -7,15 +7,18 @@ using Prism.Regions;
 namespace LandmarkDevs.Core.Prism
 {
     /// <summary>
-    ///     Class TabablzControlRegionAdapter.
+    ///     A region adapter used to add and remove views from the TabablzControl using Prism.
     /// </summary>
-    /// <seealso cref="TabablzControl" />
+    /// <seealso cref="Prism.Regions.RegionAdapterBase{Dragablz.TabablzControl}" />
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class TabablzControlRegionAdapter : RegionAdapterBase<TabablzControl>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="TabablzControlRegionAdapter" /> class.
+        ///     Initializes a new instance of the <see cref="TabablzControlRegionAdapter"/> class.
         /// </summary>
-        /// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
+        /// <param name="regionBehaviorFactory">
+        ///     The factory used to create the region behaviors to attach to the created regions.
+        /// </param>
         public TabablzControlRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory) : base(regionBehaviorFactory)
         {
         }
@@ -45,11 +48,11 @@ namespace LandmarkDevs.Core.Prism
 
         private static void TabAdded(TabablzControl regionTarget, NotifyCollectionChangedEventArgs e)
         {
-            foreach (object obj in e.NewItems)
+            foreach (var element in e.NewItems)
             {
                 var item = new TabItem();
                 var vw = e.NewItems[0] as UserControl;
-                item.Header = ((INavigationBaseViewModel) vw.DataContext).Title;
+                item.Header = ((INavigationBaseViewModel)vw.DataContext).Title;
                 item.Content = vw;
                 regionTarget.Items.Insert(regionTarget.Items.Count, item);
                 regionTarget.SelectedIndex = regionTarget.Items.Count - 1;
@@ -58,11 +61,11 @@ namespace LandmarkDevs.Core.Prism
 
         private static void TabRemoved(TabablzControl regionTarget, NotifyCollectionChangedEventArgs e)
         {
-            foreach (object obj in e.OldItems)
+            foreach (var element in e.OldItems)
             {
                 for (var i = 0; i < regionTarget.Items.Count; i++)
                 {
-                    var tab = (TabItem) regionTarget.Items[i];
+                    var tab = (TabItem)regionTarget.Items[i];
                     if (tab.Content == e.OldItems[0])
                         regionTarget.Items.Remove(tab);
                 }
@@ -75,7 +78,6 @@ namespace LandmarkDevs.Core.Prism
         ///     that will be used to adapt the object.
         /// </summary>
         /// <returns>A new instance of <see cref="T:Prism.Regions.IRegion" />.</returns>
-        [ExcludeFromCodeCoverage]
         protected override IRegion CreateRegion() => new AllActiveRegion();
     }
 }
