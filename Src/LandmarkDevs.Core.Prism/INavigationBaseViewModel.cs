@@ -24,16 +24,6 @@ namespace LandmarkDevs.Core.Prism
         void Close(dynamic viewModel, string viewId);
 
         /// <summary>
-        ///     Called to determine if this instance can handle the navigation request.
-        /// </summary>
-        /// <param name="navigationContext">The navigation context.</param>
-        /// <returns>
-        ///     <see langword="true"/> if this instance accepts the navigation request; otherwise, <see langword="false"/>.
-        /// </returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        bool IsNavigationTarget(NavigationContext navigationContext);
-
-        /// <summary>
         ///     Navigates the specified view.
         /// </summary>
         /// <param name="navModel">The nav model.</param>
