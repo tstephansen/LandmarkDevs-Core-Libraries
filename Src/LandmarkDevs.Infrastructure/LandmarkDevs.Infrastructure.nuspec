@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library contains Observable and RelayCommand classes for ViewModels, error tracking functions, logging functions, and other commonly used classes and methods. For code included in this library that I didn't write, all rights belong to the company/individuals who took the time to create it.</description>
+    <releaseNotes>Initial port to NETStandard.</releaseNotes>
+    <copyright>Copyright 2018 - Tim Stephansen</copyright>
+    <tags>LandmarkDevs Shared</tags>
+  </metadata>
+</package>

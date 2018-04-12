@@ -13,6 +13,10 @@
     <RepositoryUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries.git</RepositoryUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.92.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
