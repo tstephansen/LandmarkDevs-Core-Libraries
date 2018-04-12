@@ -2,21 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>3.0.0</Version>
+    <Description>This library contains Observable and RelayCommand classes for ViewModels, error tracking functions, logging functions, and other commonly used classes and methods. For code included in this library that I didn't write, all rights belong to the company/individuals who took the time to create it.</Description>
+    <Company>LandmarkDevs</Company>
+    <Authors>Tim Stephansen</Authors>
+    <Copyright>Copyright © Tim Stephansen 2018</Copyright>
+    <PackageProjectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</PackageProjectUrl>
+    <PackageTags>LandmarkDevs Infrastructure</PackageTags>
+    <RepositoryUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries.git</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.0-preview1-26216-02" />
-    <PackageReference Include="NLog" Version="4.5.0-rc07" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="PresentationFramework">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationFramework.dll</HintPath>
-    </Reference>
-	<Reference Include="WindowsBase">
-	  <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\WindowsBase.dll</HintPath>
-	</Reference>
+    <PackageReference Include="NLog" Version="4.5.2" />
   </ItemGroup>
 
 </Project>
