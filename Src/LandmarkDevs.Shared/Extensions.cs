@@ -94,11 +94,16 @@ namespace LandmarkDevs.Shared
             return Convert.ToDateTime(dateId.ToDateString());
         }
 
-        /// <summary> Adds/Subtracts the work days. Add the following code to include holidays in the
-        /// calculation. <example> if (newDate.DayOfWeek != DayOfWeek.Saturday && newDate.DayOfWeek
-        /// != DayOfWeek.Sunday && !newDate.IsHoliday()) { workingDays -= direction; } </example>
-        /// </summary> <param name="date">The date.</param> <param name="workingDays">The working
-        /// days.</param> <returns>DateTime.</returns>
+        /// <summary>
+        ///     Adds/Subtracts the work days. Add the following code to include holidays in the calculation.
+        /// </summary>
+        /// <example>
+        ///     if (newDate.DayOfWeek != DayOfWeek.Saturday &amp;&amp; newDate.DayOfWeek !=
+        ///     DayOfWeek.Sunday &amp;&amp; !newDate.IsHoliday()) { workingDays -= direction; }
+        /// </example>
+        /// <param name="date">The date.</param>
+        /// <param name="workingDays">The working days.</param>
+        /// <returns>DateTime.</returns>
         public static DateTime AddWorkDays(this DateTime date, int workingDays)
         {
             var direction = workingDays < 0 ? -1 : 1;
@@ -115,6 +120,38 @@ namespace LandmarkDevs.Shared
             return newDate;
         }
 
+        /// <summary>
+        ///     Calculates the workday.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="workingDays">The number of working days.</param>
+        /// <param name="holidays">The holidays.</param>
+        /// <returns></returns>
+        public static DateTime AddWorkDays(this DateTime date, int workingDays, List<DateTime> holidays)
+        {
+            var direction = workingDays < 0 ? -1 : 1;
+            while (workingDays != 0)
+            {
+                date = date.AddDays(direction);
+                if (date.DayOfWeek != DayOfWeek.Saturday &&
+                    date.DayOfWeek != DayOfWeek.Sunday && !date.IsHoliday(holidays))
+                {
+                    workingDays -= direction;
+                }
+            }
+            return date;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified date is holiday.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="holidays">The holidays.</param>
+        /// <returns><c>true</c> if the specified holidays is holiday; otherwise, <c>false</c>.</returns>
+        public static bool IsHoliday(this DateTime date, List<DateTime> holidays)
+        {
+            return holidays.Any(c => c.Date == date);
+        }
         #endregion
 
         #region Excel and DataTable Extensions
@@ -223,6 +260,47 @@ namespace LandmarkDevs.Shared
         /// <returns></returns>
         public static List<T> Clone<T>(this List<T> list) where T : ICloneable => list.Select(item => (T)item.Clone()).ToList();
 
+        /// <summary>
+        ///     Determines whether [is not null] [the specified string].
+        /// </summary>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if [is not null] [the specified string]; otherwise, <c>false</c>.</returns>
+        public static bool IsNotNull(this string @this)
+        {
+            return @this != null;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified string is null.
+        /// </summary>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if the specified string is null; otherwise, <c>false</c>.</returns>
+        public static bool IsNull(this string @this)
+        {
+            return @this == null;
+        }
+
+        /// <summary>
+        ///     Determines whether [is not null] [the specified string].
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if [is not null] [the specified string]; otherwise, <c>false</c>.</returns>
+        public static bool IsNotNull<T>(this T @this) where T : class
+        {
+            return @this != null;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified string is null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if the specified string is null; otherwise, <c>false</c>.</returns>
+        public static bool IsNull<T>(this T @this) where T : class
+        {
+            return @this == null;
+        }
         #endregion
 
         #region Active Directory Extensions
