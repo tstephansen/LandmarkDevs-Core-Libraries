@@ -11,6 +11,7 @@ assembly_info:
 before_build:
 - ps: >-
     nuget restore
+    dotnet restore
 build:
   project: LandmarkDevs Core Libraries.sln
   publish_nuget: true
