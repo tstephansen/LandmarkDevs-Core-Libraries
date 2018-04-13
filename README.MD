@@ -1,5 +1,7 @@
 # LandmarkDevs Core Libraries
 
+[![Build status](https://ci.appveyor.com/api/projects/status/jqjjbmhp7296aa13?svg=true)](https://ci.appveyor.com/project/tstephansen/landmarkdevs-core-libraries)
+
 This project contains three libraries that are most commonly used in WPF applications that I create.
 
 ## Summary
@@ -17,7 +19,3 @@ This library contains a Guid Generator that was written by [fluentcassandra](htt
 
 ### Telemetry Library
 This library contains classes useful for telemetry tracking with HockeyApp.
-
-## NuGet
-To create a NuGet package from these libraries run the powershell script in the solution directory.  
-`.\pack.ps1`
