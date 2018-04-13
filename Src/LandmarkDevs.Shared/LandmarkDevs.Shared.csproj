@@ -10,6 +10,7 @@
     <Authors>Tim Stephansen</Authors>
     <PackageTags>LandmarkDevs Shared</PackageTags>
     <RepositoryUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries.git</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
