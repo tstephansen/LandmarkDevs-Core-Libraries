@@ -4,7 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>This library contains a Guid Generator, a change tracking model, a tracking message model, some extension methods, and a helper class used for progress reporting during async operations. For code included in this library that I didn't write, all rights belong to the company/individuals who took the time to create it.</Description>
     <Version>3.0.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>Copyright © Tim Stephansen 2018</Copyright>
     <PackageProjectUrl>https://github.com/tstephansen/LandmarkDevs-Core-Libraries</PackageProjectUrl>
     <Company>LandmarkDevs</Company>
