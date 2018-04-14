@@ -16,6 +16,16 @@ namespace LandmarkDevs.Shared
         void Reset();
 
         /// <summary>
+        /// Sets the property to the specified value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="storage">The property who's value will change.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        void Set<T>(ref T storage, T value, [CallerMemberName]
+            string propertyName = null);
+
+        /// <summary>
         ///     Tracks the changed value.
         /// </summary>
         /// <exception cref="System.ArgumentException">
