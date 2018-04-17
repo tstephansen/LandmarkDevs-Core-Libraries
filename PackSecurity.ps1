@@ -1,1 +1,0 @@
-nuget pack Src/LandmarkDevs.Core.Security/LandmarkDevs.Core.Security.csproj -Build -Properties Configuration=Release

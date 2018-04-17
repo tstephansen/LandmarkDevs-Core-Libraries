@@ -1,1 +1,0 @@
-nuget pack Src/LandmarkDevs.Core.Shared/LandmarkDevs.Core.Shared.csproj -Build -Properties Configuration=Release
