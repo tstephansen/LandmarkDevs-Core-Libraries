@@ -13,7 +13,4 @@
     <copyright>Copyright 2018 - Tim Stephansen</copyright>
     <tags>LandmarkDevs Infrastructure</tags>
   </metadata>
-  <files>
-    <file src="bin\Release\LandmarkDevs.Core.Infrastructure.pdb" target="lib\net462\LandmarkDevs.Core.Infrastructure.pdb" />
-  </files>
 </package>
