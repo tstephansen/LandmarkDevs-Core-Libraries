@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Net.NetworkInformation;
 
 namespace LandmarkDevs.Core.Shared
 {
     /// <summary>
-    /// Class GuidGenerator.
+    /// Used to generate GUIDs.
     /// Code for this file was taken from https://github.com/fluentcassandra/fluentcassandra/tree/master/src
     /// </summary>
     [ExcludeFromCodeCoverage]
@@ -18,28 +16,38 @@ namespace LandmarkDevs.Core.Shared
 
         private static DateTimeOffset _lastTimestampForNoDuplicatesGeneration = TimestampHelper.UtcNow();
 
-        // number of bytes in uuid
+        /// <summary>
+        /// Number of bytes in uuid.
+        /// </summary>
         private const int ByteArraySize = 16;
 
-        // multiplex variant info
+        /// <summary>
+        /// Multiplex variant info.
+        /// </summary>
         private const int VariantByte = 8;
 
         private const int VariantByteMask = 0x3f;
         private const int VariantByteShift = 0x80;
 
-        // multiplex version info
+        /// <summary>
+        /// Multiplex version info.
+        /// </summary>
         private const int VersionByte = 7;
 
         private const int VersionByteMask = 0x0f;
         private const int VersionByteShift = 4;
 
-        // indexes within the uuid array for certain boundaries
+        /// <summary>
+        /// Indexes within the uuid array for certain boundaries.
+        /// </summary>
         private const byte TimestampByte = 0;
 
         private const byte GuidClockSequenceByte = 8;
         private const byte NodeByte = 10;
 
-        // offset to move from 1/1/0001, which is 0-time for .NET, to gregorian 0-time of 10/15/1582
+        /// <summary>
+        /// Offset to move from 1/1/0001, which is 0-time for .NET, to gregorian 0-time of 10/15/1582
+        /// </summary>
         private static readonly DateTimeOffset GregorianCalendarStart = new DateTimeOffset(1582, 10, 15, 0, 0, 0, TimeSpan.Zero);
 
         /// <summary>
@@ -66,7 +74,6 @@ namespace LandmarkDevs.Core.Shared
         static GuidGenerator()
         {
             Random = new Random();
-
             GuidGeneration = GuidGeneration.NoDuplicates;
             NodeBytes = GenerateNodeBytes();
             ClockSequenceBytes = GenerateClockSequenceBytes();
@@ -75,53 +82,18 @@ namespace LandmarkDevs.Core.Shared
         /// <summary>
         /// Generates a random value for the node.
         /// </summary>
-        /// <returns></returns>
-        public static byte[] GenerateNodeBytes()
+        /// <returns>System.Byte[].</returns>
+        private static byte[] GenerateNodeBytes()
         {
             var node = new byte[6];
-
             Random.NextBytes(node);
-            return node;
-        }
-
-        /// <summary>
-        /// Generates a node based on the first 6 bytes of an IP address.
-        /// </summary>
-        /// <param name="ip"></param>
-        public static byte[] GenerateNodeBytes(IPAddress ip)
-        {
-            if (ip == null)
-                throw new ArgumentNullException(nameof(ip));
-
-            var bytes = ip.GetAddressBytes();
-
-            if (bytes.Length < 6)
-                throw new ArgumentOutOfRangeException(nameof(ip), @"The passed in IP address must contain at least 6 bytes.");
-
-            var node = new byte[6];
-            Array.Copy(bytes, node, 6);
-
-            return node;
-        }
-
-        /// <summary>
-        /// Generates a node based on the bytes of the MAC address.
-        /// </summary>
-        /// <param name="mac"></param>
-        /// <remarks>The machines MAC address can be retrieved from <see cref="NetworkInterface.GetPhysicalAddress"/>.</remarks>
-        public static byte[] GenerateNodeBytes(PhysicalAddress mac)
-        {
-            if (mac == null)
-                throw new ArgumentNullException(nameof(mac));
-
-            var node = mac.GetAddressBytes();
-
             return node;
         }
 
         /// <summary>
         /// Generates a random clock sequence.
         /// </summary>
+        /// <returns>System.Byte[].</returns>
         public static byte[] GenerateClockSequenceBytes()
         {
             var bytes = new byte[2];
@@ -135,17 +107,6 @@ namespace LandmarkDevs.Core.Shared
         /// <param name="dt">The dt.</param>
         /// <returns>System.Byte[].</returns>
         public static byte[] GenerateClockSequenceBytes(DateTime dt)
-        {
-            var utc = dt.ToUniversalTime();
-            return GenerateClockSequenceBytes(utc.Ticks);
-        }
-
-        /// <summary>
-        /// In order to maintain a constant value we need to get a two byte hash from the DateTime.
-        /// </summary>
-        /// <param name="dt">The dt.</param>
-        /// <returns>System.Byte[].</returns>
-        public static byte[] GenerateClockSequenceBytes(DateTimeOffset dt)
         {
             var utc = dt.ToUniversalTime();
             return GenerateClockSequenceBytes(utc.Ticks);
@@ -201,30 +162,21 @@ namespace LandmarkDevs.Core.Shared
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
         /// <returns>DateTime.</returns>
-        public static DateTime GetDateTime(Guid guid)
-        {
-            return GetDateTimeOffset(guid).DateTime;
-        }
+        public static DateTime GetDateTime(Guid guid) => GetDateTimeOffset(guid).DateTime;
 
         /// <summary>
         /// Gets the local date time.
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
         /// <returns>DateTime.</returns>
-        public static DateTime GetLocalDateTime(Guid guid)
-        {
-            return GetDateTimeOffset(guid).LocalDateTime;
-        }
+        public static DateTime GetLocalDateTime(Guid guid) => GetDateTimeOffset(guid).LocalDateTime;
 
         /// <summary>
         /// Gets the UTC date time.
         /// </summary>
         /// <param name="guid">The unique identifier.</param>
         /// <returns>DateTime.</returns>
-        public static DateTime GetUtcDateTime(Guid guid)
-        {
-            return GetDateTimeOffset(guid).UtcDateTime;
-        }
+        public static DateTime GetUtcDateTime(Guid guid) => GetDateTimeOffset(guid).UtcDateTime;
 
         /// <summary>
         /// Generates a time based unique identifier.
@@ -257,76 +209,7 @@ namespace LandmarkDevs.Core.Shared
         /// </summary>
         /// <param name="dateTime">The date time.</param>
         /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTime dateTime)
-        {
-            return GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), NodeBytes);
-        }
-
-        /// <summary>
-        /// Generates a time based unique identifier.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTimeOffset dateTime)
-        {
-            return GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), NodeBytes);
-        }
-
-        /// <summary>
-        /// Generates a time based unique identifier.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <param name="mac">The mac.</param>
-        /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTime dateTime, PhysicalAddress mac)
-        {
-            return GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), GenerateNodeBytes(mac));
-        }
-
-        /// <summary>
-        /// Generates a time based unique identifier.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <param name="mac">The mac.</param>
-        /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTimeOffset dateTime, PhysicalAddress mac)
-        {
-            return GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), GenerateNodeBytes(mac));
-        }
-
-        /// <summary>
-        /// Generates a time based unique identifier.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <param name="ip">The ip.</param>
-        /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTime dateTime, IPAddress ip)
-        {
-            return GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), GenerateNodeBytes(ip));
-        }
-
-        /// <summary>
-        /// Generates a time based unique identifier.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <param name="ip">The ip.</param>
-        /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTimeOffset dateTime, IPAddress ip)
-        {
-            return GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), GenerateNodeBytes(ip));
-        }
-
-        /// <summary>
-        /// Generates a time based unique identifier.
-        /// </summary>
-        /// <param name="dateTime">The date time.</param>
-        /// <param name="clockSequence">The clock sequence.</param>
-        /// <param name="node">The node.</param>
-        /// <returns>Guid.</returns>
-        public static Guid GenerateTimeBasedGuid(DateTime dateTime, byte[] clockSequence, byte[] node)
-        {
-            return GenerateTimeBasedGuid(new DateTimeOffset(dateTime), clockSequence, node);
-        }
+        public static Guid GenerateTimeBasedGuid(DateTime dateTime) => GenerateTimeBasedGuid(dateTime, GenerateClockSequenceBytes(dateTime), NodeBytes);
 
         /// <summary>
         /// Generates a time based unique identifier.

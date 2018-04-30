@@ -10,13 +10,12 @@ using System.Text;
 namespace LandmarkDevs.Infrastructure
 {
     /// <summary>
-    /// Class ApplicationLogger.
-    /// Used for logging operations in the application.
+    ///     Used for logging operations in the application.
     /// </summary>
     public static class ApplicationLogger
     {
         /// <summary>
-        /// Initializes application logging.
+        ///     Initializes application logging.
         /// </summary>
         /// <returns>ILogger.</returns>
         public static ILogger InitializeLogging()
@@ -26,7 +25,7 @@ namespace LandmarkDevs.Infrastructure
                 var path = CreateAppDataDirectory();
                 return InitializeLogging(path, false, null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogManager.Configuration = new LoggingConfiguration();
                 _logger = LogManager.GetCurrentClassLogger();
@@ -36,7 +35,7 @@ namespace LandmarkDevs.Infrastructure
         }
 
         /// <summary>
-        /// Initializes application logging.
+        ///     Initializes application logging.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns>ILogger.</returns>
@@ -47,7 +46,7 @@ namespace LandmarkDevs.Infrastructure
         }
 
         /// <summary>
-        /// Initializes application logging.
+        ///     Initializes application logging.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="remoteLoggingEnabled">if set to <c>true</c> [remote logging enabled].</param>
@@ -148,13 +147,10 @@ namespace LandmarkDevs.Infrastructure
         }
 
         /// <summary>
-        /// Gets the logger.
+        ///     Gets the logger.
         /// </summary>
         /// <returns>ILogger.</returns>
-        public static ILogger GetLogger()
-        {
-            return _logger;
-        }
+        public static ILogger GetLogger() => _logger;
 
         private static ILogger _logger;
     }

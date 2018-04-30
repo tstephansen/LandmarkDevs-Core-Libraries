@@ -17,13 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Security"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Prism", "Src\LandmarkDevs.Core.Prism\LandmarkDevs.Core.Prism.csproj", "{BAFD026F-8EC1-4B69-AB66-37CC4CA9EBF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Shared", "Src\LandmarkDevs.Core.Shared\LandmarkDevs.Core.Shared.csproj", "{1C0B2E1E-2282-451C-B167-51C3215FFA5A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Tests", "Src\LandmarkDevs.Core.Tests\LandmarkDevs.Core.Tests.csproj", "{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandmarkDevs.Shared", "Src\LandmarkDevs.Shared\LandmarkDevs.Shared.csproj", "{E4DCF91E-0412-4395-A6BF-1FFF5408DA5F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandmarkDevs.Infrastructure", "Src\LandmarkDevs.Infrastructure\LandmarkDevs.Infrastructure.csproj", "{57A72059-82AE-4D2F-A6C1-4E4048C7F228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandmarkDevs.Core.Shared", "Src\LandmarkDevs.Core.Shared\LandmarkDevs.Core.Shared.csproj", "{3F78C585-93D2-418C-BFA8-401E2E5FB037}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,6 @@ Global
 		{BAFD026F-8EC1-4B69-AB66-37CC4CA9EBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAFD026F-8EC1-4B69-AB66-37CC4CA9EBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAFD026F-8EC1-4B69-AB66-37CC4CA9EBF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C0B2E1E-2282-451C-B167-51C3215FFA5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7FFE7CE-E8DF-4E54-A7C9-44C3F7C2507D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{57A72059-82AE-4D2F-A6C1-4E4048C7F228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57A72059-82AE-4D2F-A6C1-4E4048C7F228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57A72059-82AE-4D2F-A6C1-4E4048C7F228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F78C585-93D2-418C-BFA8-401E2E5FB037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F78C585-93D2-418C-BFA8-401E2E5FB037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F78C585-93D2-418C-BFA8-401E2E5FB037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F78C585-93D2-418C-BFA8-401E2E5FB037}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

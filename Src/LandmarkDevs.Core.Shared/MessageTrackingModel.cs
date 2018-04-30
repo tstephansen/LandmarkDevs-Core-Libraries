@@ -5,14 +5,14 @@ using System.Runtime.CompilerServices;
 namespace LandmarkDevs.Core.Shared
 {
     /// <summary>
-    /// Class MessageTrackingModel.
+    ///     A data model for change tracking that includes a message when the property value changes.
     /// </summary>
     /// <seealso cref="ChangeTrackingModel" />
     public class MessageTrackingModel : ChangeTrackingModel, IMessageTrackingModel
     {
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageTrackingModel"/> class.
+        ///     Initializes a new instance of the <see cref="MessageTrackingModel" /> class.
         /// </summary>
         public MessageTrackingModel()
         {
@@ -23,7 +23,7 @@ namespace LandmarkDevs.Core.Shared
 
         #region Methods
         /// <summary>
-        /// Tracks the message.
+        ///     Tracks the message.
         /// </summary>
         /// <param name="newValue">The new value.</param>
         /// <param name="oldValue">The old value.</param>
@@ -42,7 +42,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Tracks the message.
+        ///     Tracks the message.
         /// </summary>
         /// <param name="newValue">The new value.</param>
         /// <param name="oldValue">The old value.</param>
@@ -106,7 +106,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         public new virtual void Reset()
         {
@@ -116,7 +116,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance has messages.
+        ///     Gets a value indicating whether this instance has messages.
         /// </summary>
         /// <value><c>true</c> if this instance has messages; otherwise, <c>false</c>.</value>
         public virtual bool HasMessages => ChangesNotes.Count > 0;
@@ -125,7 +125,7 @@ namespace LandmarkDevs.Core.Shared
 
         #region Variables
         /// <summary>
-        /// Gets or sets the changes notes.
+        ///     Gets or sets the changes notes.
         /// </summary>
         /// <value>The changes notes.</value>
         public ConcurrentDictionary<string, TrackerMessage> ChangesNotes { get; set; }

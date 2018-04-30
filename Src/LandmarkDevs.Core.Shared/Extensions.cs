@@ -1,6 +1,4 @@
-﻿using ClosedXML.Excel;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.DirectoryServices;
@@ -8,48 +6,44 @@ using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ClosedXML.Excel;
+using Newtonsoft.Json;
 
 namespace LandmarkDevs.Core.Shared
 {
+    /// <summary>
+    ///     Extensions that are commonly used in my applications.
+    /// </summary>
     public static class Extensions
     {
         #region String Extensions
         /// <summary>
-        /// Returns the characters of the string from the left by the specified length.
+        ///     Returns the characters of the string from the left by the specified length.
         /// </summary>
         /// <param name="str">The string.</param>
         /// <param name="length">The length.</param>
         /// <returns>System.String.</returns>
-        public static string Left(this string str, int length)
-        {
-            return str.Substring(0, length);
-        }
+        public static string Left(this string str, int length) => str.Substring(0, length);
 
         /// <summary>
-        /// Returns the characters of the string from the right by the specified length.
+        ///     Returns the characters of the string from the right by the specified length.
         /// </summary>
         /// <param name="str">The string.</param>
         /// <param name="length">The length.</param>
         /// <returns>System.String.</returns>
-        public static string Right(this string str, int length)
-        {
-            var revString = str.Reverse();
-            var rightString = revString.Left(length);
-            return rightString.Reverse();
-        }
+        public static string Right(this string str, int length) => str.Reverse().Left(length).Reverse();
 
         /// <summary>
-        /// Reverses the specified string.
+        ///     Reverses the specified string.
         /// </summary>
         /// <param name="str">The string.</param>
         /// <returns>System.String.</returns>
         public static string Reverse(this string str)
         {
             var sb = new StringBuilder();
-            var sArray = str.ToCharArray();
-            for (var i = sArray.Length - 1; i >= 0; i--)
+            for (var i = str.ToCharArray().Length - 1; i >= 0; i--)
             {
-                sb.Append(sArray[i]);
+                sb.Append(str[i]);
             }
             return sb.ToString();
         }
@@ -58,7 +52,7 @@ namespace LandmarkDevs.Core.Shared
 
         #region Date Extensions
         /// <summary>
-        /// Converts the DateTime to a Date ID.
+        ///     Converts the DateTime to a Date ID.
         /// </summary>
         /// <param name="date">The date.</param>
         /// <returns>System.Int64.</returns>
@@ -77,7 +71,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Converts a Date ID to a string.
+        ///     Converts a Date ID to a string.
         /// </summary>
         /// <param name="dateId">The date identifier.</param>
         /// <returns>System.String.</returns>
@@ -91,7 +85,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Converts a Date ID to DateTime
+        ///     Converts a Date ID to DateTime
         /// </summary>
         /// <param name="dateId">The date identifier.</param>
         /// <returns>DateTime.</returns>
@@ -101,16 +95,12 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Adds/Subtracts the work days.
-        /// Add the following code to include holidays in the calculation.
-        /// <example>
-        /// if (newDate.DayOfWeek != DayOfWeek.Saturday &&
-        /// newDate.DayOfWeek != DayOfWeek.Sunday && !newDate.IsHoliday())
-        /// {
-        /// workingDays -= direction;
-        /// }
-        /// </example>
+        ///     Adds/Subtracts the work days. Add the following code to include holidays in the calculation.
         /// </summary>
+        /// <example>
+        ///     if (newDate.DayOfWeek != DayOfWeek.Saturday &amp;&amp; newDate.DayOfWeek !=
+        ///     DayOfWeek.Sunday &amp;&amp; !newDate.IsHoliday()) { workingDays -= direction; }
+        /// </example>
         /// <param name="date">The date.</param>
         /// <param name="workingDays">The working days.</param>
         /// <returns>DateTime.</returns>
@@ -130,11 +120,43 @@ namespace LandmarkDevs.Core.Shared
             return newDate;
         }
 
+        /// <summary>
+        ///     Calculates the workday.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="workingDays">The number of working days.</param>
+        /// <param name="holidays">The holidays.</param>
+        /// <returns></returns>
+        public static DateTime AddWorkDays(this DateTime date, int workingDays, List<DateTime> holidays)
+        {
+            var direction = workingDays < 0 ? -1 : 1;
+            while (workingDays != 0)
+            {
+                date = date.AddDays(direction);
+                if (date.DayOfWeek != DayOfWeek.Saturday &&
+                    date.DayOfWeek != DayOfWeek.Sunday && !date.IsHoliday(holidays))
+                {
+                    workingDays -= direction;
+                }
+            }
+            return date;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified date is holiday.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="holidays">The holidays.</param>
+        /// <returns><c>true</c> if the specified holidays is holiday; otherwise, <c>false</c>.</returns>
+        public static bool IsHoliday(this DateTime date, List<DateTime> holidays)
+        {
+            return holidays.Any(c => c.Date == date);
+        }
         #endregion
 
         #region Excel and DataTable Extensions
         /// <summary>
-        /// Gets the Excel file connection string.
+        ///     Gets the Excel file connection string.
         /// </summary>
         /// <param name="file">The file.</param>
         /// <returns>System.String.</returns>
@@ -163,8 +185,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Converts an Excel spreadsheet to a datatable. The spreadsheet must
-        /// have a .XLSX extension.
+        ///     Converts an Excel spreadsheet to a datatable. The spreadsheet must have a .XLSX extension.
         /// </summary>
         /// <param name="spreadsheetPath">The spreadsheet path.</param>
         /// <param name="sheetName">Name of the sheet.</param>
@@ -211,7 +232,7 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Writes the datatable to a CSV file.
+        ///     Writes the datatable to a CSV file.
         /// </summary>
         /// <param name="dt">The datatable.</param>
         /// <param name="filePath">The file path.</param>
@@ -232,21 +253,59 @@ namespace LandmarkDevs.Core.Shared
 
         #region Object Extensions
         /// <summary>
-        /// Clones the list of T.
+        ///     Clones the list of T.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="list">The list that will be cloned</param>
         /// <returns></returns>
-        public static List<T> Clone<T>(this List<T> list) where T : ICloneable
+        public static List<T> Clone<T>(this List<T> list) where T : ICloneable => list.Select(item => (T)item.Clone()).ToList();
+
+        /// <summary>
+        ///     Determines whether [is not null] [the specified string].
+        /// </summary>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if [is not null] [the specified string]; otherwise, <c>false</c>.</returns>
+        public static bool IsNotNull(this string @this)
         {
-            return list.Select(item => (T)item.Clone()).ToList();
+            return @this != null;
         }
 
+        /// <summary>
+        ///     Determines whether the specified string is null.
+        /// </summary>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if the specified string is null; otherwise, <c>false</c>.</returns>
+        public static bool IsNull(this string @this)
+        {
+            return @this == null;
+        }
+
+        /// <summary>
+        ///     Determines whether [is not null] [the specified string].
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if [is not null] [the specified string]; otherwise, <c>false</c>.</returns>
+        public static bool IsNotNull<T>(this T @this) where T : class
+        {
+            return @this != null;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified string is null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="this">The string.</param>
+        /// <returns><c>true</c> if the specified string is null; otherwise, <c>false</c>.</returns>
+        public static bool IsNull<T>(this T @this) where T : class
+        {
+            return @this == null;
+        }
         #endregion
 
         #region Active Directory Extensions
         /// <summary>
-        /// Searches the active directory for the user.
+        ///     Searches the active directory for the user.
         /// </summary>
         /// <param name="directoryName">The name of the active directory.</param>
         /// <returns>DirectoryEntry.</returns>
@@ -267,7 +326,7 @@ namespace LandmarkDevs.Core.Shared
 
         #region JSON and File Extensions
         /// <summary>
-        /// Saves to json.
+        ///     Saves to json.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="filePath">The file path.</param>
@@ -290,29 +349,23 @@ namespace LandmarkDevs.Core.Shared
         }
 
         /// <summary>
-        /// Converts the Json string to an object.
+        ///     Converts the Json string to an object.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="json">The json.</param>
         /// <returns>T.</returns>
-        public static T FromJson<T>(this string json)
-        {
-            return JsonConvert.DeserializeObject<T>(json);
-        }
+        public static T FromJson<T>(this string json) => JsonConvert.DeserializeObject<T>(json);
 
         /// <summary>
-        /// Converts the object to Json.
+        ///     Converts the object to Json.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumerableObject">The enumerable object.</param>
         /// <returns>System.String.</returns>
-        public static string ToJson<T>(this T enumerableObject)
-        {
-            return JsonConvert.SerializeObject(enumerableObject);
-        }
+        public static string ToJson<T>(this T enumerableObject) => JsonConvert.SerializeObject(enumerableObject);
 
         /// <summary>
-        /// Writes the text to file.
+        ///     Writes the text to file.
         /// </summary>
         /// <param name="text">The text.</param>
         /// <param name="path">The path.</param>

@@ -1,9 +1,7 @@
 namespace LandmarkDevs.Infrastructure
 {
-    /// <summary>
-    /// Interface IRelayCommand
-    /// </summary>
-    /// <seealso cref="System.Windows.Input.ICommand" />
+
+    /// <inheritdoc />
     public interface IRelayCommand : System.Windows.Input.ICommand
     {
         /// <summary>
@@ -11,7 +9,7 @@ namespace LandmarkDevs.Infrastructure
         /// </summary>
         void OnCanExecuteChanged();
         /// <summary>
-        /// Raises <see cref="CanExecuteChanged"/> so every command invoker
+        /// Raises <see cref="System.Windows.Input.ICommand.CanExecuteChanged"/> so every command invoker
         /// can requery to check if the command can execute.
         /// </summary>
         void RaiseCanExecuteChanged();

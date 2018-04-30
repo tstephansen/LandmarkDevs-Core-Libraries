@@ -6,29 +6,25 @@ using System.Threading.Tasks;
 namespace LandmarkDevs.Core.Infrastructure
 {
     /// <summary>
-    /// Class ErrorTracker.
+    ///     Tracks errors in the application.
     /// </summary>
-    /// <seealso cref="LandmarkDevs.Core.Infrastructure.IErrorTracker" />
+    /// <seealso cref="IErrorTracker" />
     public class ErrorTracker : IErrorTracker
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ErrorTracker"/> class.
+        ///     Initializes a new instance of the <see cref="ErrorTracker" /> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// logger
-        /// or
-        /// tracker
-        /// </exception>
+        /// <exception cref="System.ArgumentNullException">logger or tracker</exception>
         public ErrorTracker(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private readonly ILogger _logger;
+        private readonly ILogger logger;
 
         /// <summary>
-        /// Logs the error.
+        ///     Logs the error.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>System.Int32.</returns>
@@ -36,7 +32,7 @@ namespace LandmarkDevs.Core.Infrastructure
         {
             try
             {
-                _logger.Log(LogLevel.Error, model.Exception.ToString());
+                logger.Log(LogLevel.Error, model.Exception.ToString());
                 var path = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), model.ApplicationName);
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
@@ -58,7 +54,7 @@ namespace LandmarkDevs.Core.Infrastructure
         }
 
         /// <summary>
-        /// Logs the error.
+        ///     Logs the error.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>Task&lt;System.Int32&gt;.</returns>
@@ -67,7 +63,7 @@ namespace LandmarkDevs.Core.Infrastructure
         {
             try
             {
-                _logger.Log(LogLevel.Error, model.Exception.ToString());
+                logger.Log(LogLevel.Error, model.Exception.ToString());
                 var path = Path.Combine(Environment.SpecialFolder.ApplicationData.ToString(), model.ApplicationName);
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);

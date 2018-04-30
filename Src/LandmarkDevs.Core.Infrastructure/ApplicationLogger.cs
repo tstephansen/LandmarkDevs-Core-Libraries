@@ -10,13 +10,12 @@ using System.Text;
 namespace LandmarkDevs.Core.Infrastructure
 {
     /// <summary>
-    /// Class ApplicationLogger.
-    /// Used for logging operations in the application.
+    ///     Used for logging operations in the application.
     /// </summary>
     public static class ApplicationLogger
     {
         /// <summary>
-        /// Initializes application logging.
+        ///     Initializes application logging.
         /// </summary>
         /// <returns>ILogger.</returns>
         public static ILogger InitializeLogging()
@@ -26,16 +25,17 @@ namespace LandmarkDevs.Core.Infrastructure
                 var path = CreateAppDataDirectory();
                 return InitializeLogging(path, false, null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Application Logging failed to initialize.\n{ex.Message.Trim()}");
-                LogManager.Configuration = new NLog.Config.LoggingConfiguration();
-                return _logger = LogManager.GetCurrentClassLogger();
+                LogManager.Configuration = new LoggingConfiguration();
+                _logger = LogManager.GetCurrentClassLogger();
+                _logger.Log(LogLevel.Warn, ex);
+                return _logger;
             }
         }
 
         /// <summary>
-        /// Initializes application logging.
+        ///     Initializes application logging.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns>ILogger.</returns>
@@ -46,7 +46,7 @@ namespace LandmarkDevs.Core.Infrastructure
         }
 
         /// <summary>
-        /// Initializes application logging.
+        ///     Initializes application logging.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="remoteLoggingEnabled">if set to <c>true</c> [remote logging enabled].</param>
@@ -147,13 +147,10 @@ namespace LandmarkDevs.Core.Infrastructure
         }
 
         /// <summary>
-        /// Gets the logger.
+        ///     Gets the logger.
         /// </summary>
         /// <returns>ILogger.</returns>
-        public static ILogger GetLogger()
-        {
-            return _logger;
-        }
+        public static ILogger GetLogger() => _logger;
 
         private static ILogger _logger;
     }

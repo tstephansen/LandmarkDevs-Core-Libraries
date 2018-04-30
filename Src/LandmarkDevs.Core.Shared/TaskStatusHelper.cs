@@ -4,70 +4,67 @@ using System.Runtime.CompilerServices;
 namespace LandmarkDevs.Core.Shared
 {
     /// <summary>
-    /// Class TaskStatusHelper.
+    ///     A helper used to report the status of a task that is in progress.
     /// </summary>
-    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+    /// <inheritdoc />
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class TaskStatusHelper : INotifyPropertyChanged
     {
-        private double _progressPercentage;
+        private double progressPercentage;
         /// <summary>
-        /// Gets or sets the progress percentage.
+        ///     Gets or sets the progress percentage.
         /// </summary>
         /// <value>The progress percentage.</value>
         public double ProgressPercentage
         {
-            get { return _progressPercentage; }
+            get => progressPercentage;
             set
             {
-                _progressPercentage = value;
+                progressPercentage = value;
                 OnPropertyChanged();
             }
         }
 
-        private string _progressText;
+        private string progressText;
         /// <summary>
-        /// Gets or sets the progress text.
+        ///     Gets or sets the progress text.
         /// </summary>
         /// <value>The progress text.</value>
         public string ProgressText
         {
-            get { return _progressText; }
+            get => progressText;
             set
             {
-                if (_progressText != value)
-                {
-                    _progressText = value;
-                    OnPropertyChanged();
-                }
+                if (progressText == value) return;
+                progressText = value;
+                OnPropertyChanged();
             }
         }
 
-        private string _text;
+        private string text;
         /// <summary>
-        /// Gets or sets the text.
+        ///     Gets or sets the text.
         /// </summary>
         /// <value>The text.</value>
         public string Text
         {
-            get { return _text; }
+            get => text;
             set
             {
-                if (_text != value)
-                {
-                    _text = value;
-                    OnPropertyChanged();
-                }
+                if (text == value) return;
+                text = value;
+                OnPropertyChanged();
             }
         }
 
         /// <summary>
-        /// Occurs when a property value changes.
+        ///     Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Called when the property changes.
+        ///     Called when the property changes.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

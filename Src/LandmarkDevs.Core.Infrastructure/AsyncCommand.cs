@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 namespace LandmarkDevs.Core.Infrastructure
 {
     /// <summary>
-    ///     Class AsyncCommand. This class is based on the DelegateCommand class from the Prism
+    ///     This class is based on the DelegateCommand class from the Prism
     ///     Library. https://github.com/PrismLibrary/Prism/blob/Prismv6.1.0/Source/Prism/Commands/DelegateCommand.cs
     /// </summary>
-    /// <seealso cref="Yca.ManagementSystem.Infrastructure.AsyncCommandBase"/>
+    /// <seealso cref="AsyncCommandBase"/>
     public class AsyncCommand : AsyncCommandBase
     {
         /// <summary>
@@ -48,10 +48,7 @@ namespace LandmarkDevs.Core.Infrastructure
         ///<summary>
         /// Executes the command.
         ///</summary>
-        public virtual async Task Execute()
-        {
-            await Execute(null);
-        }
+        public virtual async Task Execute() => await Execute(null);
 
         private AsyncCommand(Func<Task> executeMethod)
             : this(executeMethod, () => true)
@@ -117,10 +114,7 @@ namespace LandmarkDevs.Core.Infrastructure
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>Task.</returns>
-        public virtual async Task Execute(T parameter)
-        {
-            await base.Execute(parameter);
-        }
+        public virtual async Task Execute(T parameter) => await base.Execute(parameter);
 
         private AsyncCommand(Func<T, Task> executeMethod)
             : this(executeMethod, (o) => true)
