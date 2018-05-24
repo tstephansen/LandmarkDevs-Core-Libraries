@@ -68,6 +68,7 @@
     <Compile Include="Html\HtmlToXamlConverter.cs" />
     <Compile Include="IErrorModel.cs" />
     <Compile Include="IErrorTracker.cs" />
+    <Compile Include="IRelayCommand.cs" />
     <Compile Include="Observable.cs" />
     <Compile Include="PasswordManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
